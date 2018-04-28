@@ -33,14 +33,18 @@
 ### [3.6 元素操纵方法](#3.6)
 ### [3.7 document.write()](#3.7)
 ### [3.8 文档和元素的几何形状和滚动](#3.8)
-## [四、事件处理](#2)
+## [四、事件处理](#4)
 ### [4.1 简介](#4.1)
 ### [4.2 事件类型](#4.2) 
 ### [4.3 注册事件处理程序](#4.3)
 ### [4.4 循环绑定事件](#4.4)
 ### [4.5 事件处理程序的调用](#4.5)
-### [4.6 文档加载事件](#4.6)		  
-        
+### [4.6 文档加载事件](#4.6)
+### [4.7 几种页面跳转的方法](#4.7)		  
+## [五、脚本化CSS](#5)
+### [5.1 脚本化内联样式](#5.1)
+### [5.2 脚本化CSS类](#5.2) 
+### [5.3 脚本化样式表](#5.3)        
 ------ 		
         
 
@@ -149,17 +153,17 @@
         		history.go(-2);			
         		//后退两个历史记录，相当于单击“后退”按钮两次			
 >> - location对象
->>>>>> ![图3-11 location对象](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-11%20location%E5%AF%B9%E8%B1%A1.png?raw=true)		
+>>>>>> ![图3-11 location对象](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-11%20location%E5%AF%B9%E8%B1%A1.png?raw=true)
 >> - document对象
->>>>>> ![图3-9 document对象A](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-9%20document%E5%AF%B9%E8%B1%A1A.png?raw=true)  
->>>>>> ![图3-10 document对象B](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-10%20document%E5%AF%B9%E8%B1%A1B.png?raw=true)  
+>>>>>> ![图3-9 document对象A](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-9%20document%E5%AF%B9%E8%B1%A1A.png?raw=true)  
+>>>>>> ![图3-10 document对象B](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-10%20document%E5%AF%B9%E8%B1%A1B.png?raw=true)  
 >> -  Window对象
->>>>>> ![图3-12 Window对象a](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-12%20Window%E5%AF%B9%E8%B1%A1a.png?raw=true)  
->>>>>> ![图3-12 Window对象b](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-12%20Window%E5%AF%B9%E8%B1%A1b.png?raw=true)		
+>>>>>> ![图3-12 Window对象a](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-12%20Window%E5%AF%B9%E8%B1%A1a.png?raw=true)  
+>>>>>> ![图3-12 Window对象b](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-12%20Window%E5%AF%B9%E8%B1%A1b.png?raw=true)		
 >> -  History对象
->>>>>> ![图3-13 History对象](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-13%20History%E5%AF%B9%E8%B1%A1.png?raw=true)  
+>>>>>> ![图3-13 History对象](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-13%20History%E5%AF%B9%E8%B1%A1.png?raw=true)  
 >> -  Screen对象
->>>>>> ![图3-14 Screen对象.png](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE3-14%20Screen%E5%AF%B9%E8%B1%A1.png?raw=true)  
+>>>>>> ![图3-14 Screen对象.png](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE3-14%20Screen%E5%AF%B9%E8%B1%A1.png?raw=true)  
 
 
 <h3 id='2.2'>2.2 计时器</h3>  
@@ -167,7 +171,7 @@
 #### 1) setTimeout(function, delaytime)
 #### 2) setInterval(function, repeattime)
 #### 3) 如果需要终止，需利用返回的值作为clearTimeout的参数
->>>>>> ![图2-2 定时器应用函数](https://github.com/hblvsjtu/JavaScript_Study/blob/master/picture/%E5%9B%BE2-2%20%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BA%94%E7%94%A8%E5%87%BD%E6%95%B0.png?raw=true)     
+>>>>>> ![图2-2 定时器应用函数](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE2-2%20%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BA%94%E7%94%A8%E5%87%BD%E6%95%B0.png?raw=true)     
 
 <h3 id='2.3'>2.3 对话框</h3>  
 
@@ -549,7 +553,7 @@
 #### 5) 判断某元素在某点
 > - elementFromPoint(),参数是X坐标和Y坐标，返回在视窗范围内某坐标上的一个元素，如果某点在视窗之外，则返回null。由于鼠标的事件对象的target属性已经包含了这些信息，所以这个功能显得有些鸡肋。
 #### 6) 鼠标事件
->>>>>> ![鼠标事件.png](https://github.com/hblvsjtu/JavaScript_Study/blob/master/jQuery_Practice/%E5%9B%BE2-2%20%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6.png?raw=true)
+>>>>>> ![图2-2 鼠标事件.png](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE2-2%20%E9%BC%A0%E6%A0%87%E4%BA%8B%E4%BB%B6.png?raw=true)
 #### 7) 滚动
 > - scrollTo(X，Y)或着scroll(X，Y) 接受两个参数，分别是相对于视窗的X坐标和Y坐标，那个点将会出现在视窗的左上角，属于window的属性；
 > - scrollBy(X，Y)，接受两个参数，分别是相对于视窗的X坐标和Y坐标，那个点将会出现在视窗的左上角，属于window的属性；
@@ -559,7 +563,7 @@
 > - scrollIntoView()的行为是尽量将所选择的元素放在视窗中，默认把元素的上边缘尽量靠经视窗的上边缘，如果传递false作为参数，则把元素的下边缘尽量靠经视窗的下边缘，类似于a元素的锚点功能；
 #### 8) 滚动关于元素尺寸，位置和溢出
 > - offsetLeft和offSetHeigt是以文档坐标为参考的
->>>>>> ![图2-3 关于元素尺寸，位置和溢出](https://github.com/hblvsjtu/JavaScript_Study/blob/master/jQuery_Practice/%E5%9B%BE2-3%20%E5%85%B3%E4%BA%8E%E5%85%83%E7%B4%A0%E5%B0%BA%E5%AF%B8%EF%BC%8C%E4%BD%8D%E7%BD%AE%E5%92%8C%E6%BA%A2%E5%87%BA.png?raw=true)
+>>>>>> ![图2-3 关于元素尺寸，位置和溢出](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE2-3%20%E5%85%B3%E4%BA%8E%E5%85%83%E7%B4%A0%E5%B0%BA%E5%AF%B8%EF%BC%8C%E4%BD%8D%E7%BD%AE%E5%92%8C%E6%BA%A2%E5%87%BA.png?raw=true)
            
                 /* 判断元素是否溢出
                  * 先利用clientHeight获取元素高度，在利用scrollHeight获取内容高度
@@ -591,7 +595,7 @@
 > -  事件对象，至少包含事件类型和事件目标等信息
 > -  事件传播，比如冒泡；
 > -  [1-1 事件处理概念.png](https://blog.csdn.net/wuqinfei_cs/article/details/48413809) 
->>>>>> ![1-1 事件处理概念.png](https://github.com/hblvsjtu/JavaScript_Study/blob/master/jQuery_Practice/1-1%20%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%A6%82%E5%BF%B5.png?raw=true)        
+>>>>>> ![1-1 事件处理概念.png](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/1-1%20%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E6%A6%82%E5%BF%B5.png?raw=true)        
         
 <h3 id='4.2'>4.2 事件类型 </h3>    
 
@@ -646,7 +650,7 @@
                 }       
 >> - 由于客户端编程的风格偏向于把内容和行为分离，所以并不支持用这种方式；
 >> - 还有一些是直接作用在浏览器而非某个单独的元素，其完整的HTML5事件处理程序列表如下：
->>>>>> ![1-2 完整的HTML5事件处理程序列表.png](https://github.com/hblvsjtu/JavaScript_Study/blob/master/jQuery_Practice/1-2%20%E5%AE%8C%E6%95%B4%E7%9A%84HTML5%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E5%88%97%E8%A1%A8.png?raw=true)   
+>>>>>> ![1-2 完整的HTML5事件处理程序列表.png](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/1-2%20%E5%AE%8C%E6%95%B4%E7%9A%84HTML5%E4%BA%8B%E4%BB%B6%E5%A4%84%E7%90%86%E7%A8%8B%E5%BA%8F%E5%88%97%E8%A1%A8.png?raw=true)   
     
 > - (3) addEventListener(type, func, bool)与removeEventListener(type, func, bool) 
 >> - 适用范围：除IE8及之前版本外的所有浏览器
@@ -860,7 +864,7 @@
 > - 文档完全解析完成，但浏览器还在等待相关资源的载入，如图片，还有异步脚本还在执行  --> 
 > - 当所有资源载入和所有异步脚本执行完毕后，complete，Web浏览器触发Windows对象上的load事件  -->   
 > - 调用异步事件，以异步相应客户的输入
->>>>>> ![图2-1 事件执行顺序.png](https://github.com/hblvsjtu/JavaScript_Study/blob/master/jQuery_Practice/%E5%9B%BE2-1%20%E4%BA%8B%E4%BB%B6%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F.png?raw=true)
+>>>>>> ![图2-1 事件执行顺序.png](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE2-1%20%E4%BA%8B%E4%BB%B6%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F.png?raw=true)
 #### 2) 测试代码：
 > - index.js代码：
         
@@ -937,11 +941,376 @@
 
                 即将关闭
 
+<h3 id='4.7'>4.7 几种页面跳转的方法 具体请看<a href="https://blog.csdn.net/cordova/article/details/50853451">Mr_厚厚的博客</a></h3>                
+        
+#### 1) 定时跳转或者原地刷新
+> - 对于刷新当前页面js控制为：
+    
+                window.location.reload();//刷新当前页面，重新向服务器请求数据
+> - head标签内部的meta标签方式，定时刷新当前界面或刷新到另一个页面：
+                
+                // 3秒后跳转到another.html页面
+                <meta charset="utf-8" http-equiv="refresh" content="3;url=another.html">    
+#### 2) js手动替换跳转
+> - 优点：灵活，可以结合更多的其他功能
+> - 缺点：受到不同浏览器的影响
+> - 上面的方法跳转会保留历史页面记录，通过返回键可以返回上一个界面，如果不想返回，直接替换页面的函数：
+                
+                //刷新当前页面，重新向服务器请求数据  
+                window.location.replace("hello.html");
 
+                或者
+                window.location.href="hello.html";
+#### 3) js手动新建跳转
+> -    window.open(url);
+    
+                window.open("hello.html");
+#### 4) 历史记录跳转
+> - window.history.go():
+    
+                window.history.go(-1); // 返回上一页  
+                  
+                window.history.go(-2); // 返回上两页  
+                  
+                window.history.go("hello.html");// 跳转到hello.html  
+> - window.history.back()
+    
+                window.history.back();
 
+                等同于：window.history.go(-1);//返回上一页
 
+                window.history.forward(); //返回下一页
 
+        
 
+------ 
+            
+<h2 id='5'> 五、脚本化CSS </h2>        
+<h3 id='5.1'>5.1 脚本化内联样式</h3>    
+        
+#### 1) CSSStyleDeclaration对象
+> - style是元素的属性，而CSSStyleDeclaration是style的属性，如：
+        
+                e.style.fontSize = "24pt";
+> - CSSStyleDeclaration对象的值都是字符串  
+> - 复合属性
+        
+                 e.style.border = topMargin + "px " + bottomMargin + "px "
+                        + leftMargin + "px " + rightMargin + "px"; 
+> - 内联样式的优先级一般都会比样式表的要高；
+#### 2) cssText 具体的可以看[这里](https://www.cnblogs.com/majingyi/p/6840818.html)
+> - cssText 的本质就是设置 HTML 元素的 style 属性值，
+        
+                obj.style.cssText=”样式”;
+                element.style.cssText=”width:20px;height:20px;border:solid 1px red;”;  
+> - 但是，这样会有一个问题，会把原有的cssText清掉，比如原来的style中有’display:none;’，那么执行完上面的JS后，display就被删掉了。为了解决这个问题，可以采用cssText累加的方法：
+        
+                 Element.style.cssText += ‘width:100px;height:100px;top:100px;left:100px;’
+> - 因此，上面cssText累加的方法在IE中是无效的。最后，可以在前面添加一个分号来解决这个问题：
+        
+                Element.style.cssText += ‘;width:100px;height:100px;top:100px;left:100px;’
+> - 再进一步，如果前面有样式表文件写着 div { text-decoration:underline; }，这个会被覆盖吗？不会！因为它不是直接作用于 HTML 元素的 style 属性。
+> - 内联样式的setter和getter
+        
+                //setter
+                e.setAttribute("style", s);
+                e.style.cssText = s;
+
+                //getter
+                s = e.getAttribute("style");
+                s = e.style.cssText;
+
+#### 3) window.getComputedStyle(element, 伪元素)
+> - 这个属性是属于浏览器窗口的，第一个参数是你想要计算的元素，第二个参数表示第一个参数的伪元素，但也可以是null或者是空字符串，最后返回一个CSSStyleDeclaration对象
+> - 所以可以利用返回的CSSStyleDeclaration对象来读取某个具体的属性，如font-size；
+> - 计算样式的CSSStyleDeclaration对象和内联元素的CSSStyleDeclaration对象是有区别的
+>> - 计算样式的属性是只读的
+>> - 计算样式的值是绝对值，这意味着单位是px或者“rgb(#, #, #)” 或者“rgba(#, #, #, #)”
+>> - 不计算复合属性，也就是说不能直接返回margin属性，只能基于基本属性，如：margin-left;
+>> - 计算样式的cssText属性没有定义；
+>> - 在IE8及之前没有实现           
+#### 4) currentStyle 具体的可以看[张鑫旭老师的博客](http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/)
+> - currentStyle是IE浏览器自娱自乐的一个属性，其与element.style可以说是近亲，至少在使用形式上类似，element.currentStyle，差别在于element.currentStyle返回的是元素当前应用的最终CSS属性值（包括外链CSS文件，页面中嵌入的style元素的属性等）。
+> - 因此，从作用上讲，getComputedStyle方法与currentStyle属性走的很近，形式上则style与currentStyle走的近。不过，currentStyle属性貌似不支持伪类样式获取，这是与getComputedStyle方法的差异，也是jQuery css()方法无法体现的一点。  
+#### 5) getPropertyValue方法 具体的可以看[张鑫旭老师的博客](http://www.zhangxinxu.com/wordpress/2012/05/getcomputedstyle-js-getpropertyvalue-currentstyle/)
+> - getPropertyValue方法可以获取CSS样式申明对象上的属性值（直接属性名称），例如：
+        
+                window.getComputedStyle(element, null).getPropertyValue("float");
+> - 如果我们不使用getPropertyValue方法，直接使用键值访问，其实也是可以的。但是，比如这里的的float，如果使用键值访问，则不能直接使用getComputedStyle(element, null).float，而应该是cssFloat与styleFloat，自然需要浏览器判断了，比较折腾！
+> - 使用getPropertyValue方法不必可以驼峰书写形式（不支持驼峰写法），例如：style.getPropertyValue("border-top-left-radius");
+        
+<h3 id='5.2'>5.2 脚本化CSS类</h3>    
+        
+#### 1) className
+> - 直接方法
+        
+                e.className = "某类名1 某类名2"；
+> - 直接方法有个缺点，它会覆盖原有的方法
+#### 2) classList 具体的可以看[张鑫旭老师的博客](http://www.zhangxinxu.com/wordpress/2013/07/domtokenlist-html5-dom-classlist-%E7%B1%BB%E5%90%8D/)
+> - HTML5中为每个元素都定义了classList，该属性值是DOMTokenList对象————一个只读的类数组对象
+> - classList的返回值显示，其本质上是DOMTokenList – DOM标记列表.
+> - DOMTokenList这种类型表示一组空间分隔的标记。通常由HTMLElement.classList, HTMLLinkElement.relList, HTMLAnchorElement.relList或HTMLAreaElement.relList返回。从0开始的类JavaScript数组索引。DOMTokenList始终是区分大小写的。
+> - 在FireFox以及Chrome下，我们执行typeof DOMTokenList的结果是："function"; 但是在IE10下，却是："object".IE10 DOMTokenList对象类型同时虽然typeof结果为"function"，但是执行DOMTokenList()会报”Illegal constructor”错误；IE10执行DOMTokenList()也会报错，错误是”缺少函数”。因此，试图通过typeof obj == "function"来判断obj就是个函数的做法是不完全正确的。
+                
+                //在控制台中输入
+                document.getElementById('newsrows_1').classList；
+                document.getElementById('newsrows_1').classList.item(0);
+
+                //返回结果
+                DOMTokenList ["newsrows2", value: "newsrows2"]
+                "newsrows2"
+
+                //DOMTokenList被暴露的属性
+                __proto__: DOMTokenList     
+                0: "newsrows2"
+                length: 1
+                value: "newsrows2"
+                add:ƒ add()
+                contains: ƒ contains()
+                entries: ƒ entries()
+                forEach: ƒ forEach()
+                item: ƒ item()
+                keys: ƒ keys()
+                length: (...)
+                remove: ƒ remove()
+                replace: ƒ replace()
+                supports: ƒ supports()
+                toString: ƒ toString()
+                toggle: ƒ toggle()
+                value: (...)
+                values: ƒ values()
+                constructor: ƒ DOMTokenList()
+                Symbol(Symbol.iterator): ƒ values()
+                Symbol(Symbol.toStringTag): "DOMTokenList"
+                get length: ƒ ()
+                get value: ƒ ()
+                set value: ƒ ()
+                __proto__: Object
+
+> - 拥有add()和remove()方法
+        
+                document.body.classList.add("c");
+                document.body.classList.length    // 3
+> - classList的局限
+>> - classList除了上面提到的不能级联这个无关痛痒的局限外，还有个比较头疼的局限，就是不能一次add或remove或toggle多个类名。//zxx: 级联指的是$().a().b().c()这种可以连在一起调用方法的写法。例如：
+        
+                document.body.classList.add("c d");    // Error: String contains an invalid character
+                document.body.classList.add("c\x20d");   // Error: String contains an invalid character
+                document.body.classList.remove("c d");    // Error: String contains an invalid character
+>> - 我们要想多类名处理，需要一个一个来，例如：
+        
+                var clList = document.body.classList;
+                clList.add("d");
+                clList.add("e");
+        
+<h3 id='5.3'>5.3 脚本化样式表 具体看<a href="https://www.cnblogs.com/limingxi/p/4526518.html">李明夕同学的博客</a></h3>    
+        
+#### 1) document.styleSheets
+> - 它是一个只读的类数组对象——CSSStyleSheet，表示与文档关联在一起的样式表，可以定义或者引用link元素或者style元素的title属性值       
+#### 2) 开启和关闭样式表
+            
+                //关闭样式表
+                document.styleSheets[0].disabled = true;
+
+                //查询样式表
+                document.styleSheets[0].href
+                "http://localhost:8080/CompatTest/BaiduHomePage.css"
+#### 3) 查询
+> - 数组的元素是CSSStyleSheet对象，CSSStyleSheet对象有一个cssRule[]数组，包含如@import和@page等指令，在IE中使用rules[]代替cssRule[]，但是区别在于IE的rules[]只包含样式表中实际存在样式规则；
+                
+                document.styleSheets[0].cssRules[0]
+
+    //结果
+    CSSStyleRule {selectorText: "body", style: CSSStyleDeclaration, styleMap: StylePropertyMap, type: 1, cssText: "body { background: pink; }", …}
+    cssText: "body { background: pink; }"
+    parentRule: null
+    parentStyleSheet: CSSStyleSheet {disable: true, ownerRule: null, cssRules: CSSRuleList, rules: CSSRuleList, type: "text/css", …}
+    selectorText: "body"
+    style: CSSStyleDeclaration {0: "background-image", 1: "background-position-x", 2: "background-position-y", 3: "background-size", 4: "background-repeat-x", 5: "background-repeat-y", 6: "background-attachment", 7: "background-origin", 8: "background-clip", 9: "background-color", alignContent: "", alignItems: "", alignSelf: "", alignmentBaseline: "", all: "", …}
+    styleMap: StylePropertyMap {size: 10}
+    type: 1
+    __proto__: CSSStyleRule
+> - 更加具体的查询相关属性
+        
+                document.styleSheets[0].cssRules[0].cssText;
+
+    //结果
+    "body { background: pink; }"
+
+                document.styleSheets[0].cssRules[0].style.cssText;
+
+    //结果
+    background: pink;
+> - 遍历样式表
+                
+                var ss = document.styleSheets[0];
+                var rules = ss.cssRules?ss.cssRules:ss.rules;
+                for(var i = 0; i < rules.length; i++) {
+                    if(!rules[i].selectorText) {
+                        continue;
+                    } 
+                    var selector = rules[i].selectorText; 
+                    var ruleText = rules[i].style.cssText;
+                    console.log(selector+": {" + ruleText + "}")};
+
+    //结果
+    body: {background: pink;}
+    body: {background: yellow;}
+    .top: {padding-right: 95px; min-width: 1000px; height: 30px; font-family: sans-serif; font-size: 12px; line-height: 0px; border-bottom: 1px solid rgb(231, 231, 231);}
+    .top a: {padding: 0px 0.5em; line-height: 30px; vertical-align: middle; color: black;}
+    .weatherclick: {display: inline-block; margin-left: 15px; padding-right: 7px; text-decoration: none; line-height: 20px !important;}
+    .weatherclick:hover: {background: pink;}
+    .icon: {display: inline-block; width: 20px; height: 20px; vertical-align: bottom; background: url("https://ss0.bdstatic.com/k4oZeXSm1A5BphGlnYG/icon/weather/aladdin/png_18/a0.png") no-repeat;}
+    .weatherquality: {color: rgb(186, 220, 0); margin-left: 7px; margin-right: 7px;}
+    .weatherqualitynumber::after: {content: ""; font-size: 10px; border-right: 1px solid black; padding-left: 1em;}
+    .toprightlist: {float: right; height: 30px; line-height: 30px; text-align: center; overflow: hidden;}
+    .toprightlist:hover: {overflow: visible;}
+    .triangle: {width: 0px; border-bottom: 8px solid rgb(153, 153, 153); border-left: 4px solid transparent; border-right: 4px solid transparent; margin-left: auto; margin-right: auto;}
+    .outertriangle: {width: 0px; border-bottom: 8px solid rgb(153, 153, 153); border-left: 8px solid transparent; border-right: 8px solid transparent; margin-left: auto; margin-right: auto;}
+    .innertriangle: {position: relative; margin-top: -7px; margin-left: auto; margin-right: auto; width: 0px; border-bottom: 7px solid white; border-left: 7px solid transparent; border-right: 7px solid transparent;}
+    .toprightlist .itembox: {display: inline-block; margin-top: -1px; line-height: 30px; text-decoration: none; border: 1px solid rgb(153, 153, 153); box-shadow: rgb(153, 153, 153) 2px 2px 2px;}
+    .toprightlist li: {display: block; text-align: center;}
+    .toprightlist li a: {text-decoration: none;}
+    .toprightlink: {float: right; font-size: 14px; line-height: 30px;}
+    .productbox: {position: absolute; top: 0px; right: 0px; height: 30px; width: 85px; color: white; background: rgb(57, 139, 251); overflow: hidden;}
+    .productbox:hover: {float: none; bottom: 0px; height: 100%; color: black; background: rgb(240, 240, 240);}
+    .productupbox: {width: 100%; height: 31px; line-height: 30px; text-align: center;}
+    .productupbox span: {font-size: 13px; vertical-align: middle;}
+    .productdownbox: {height: 100%; background: rgb(240, 240, 240); overflow: auto;}
+    .productdownboxcontent: {height: 700px; width: 65px; margin-left: 10px; background: rgb(240, 240, 240);}
+    .productdownboxcontent a: {display: block; padding: 10px 0px; font-size: 12px; color: black; text-align: center; text-decoration: none; border-bottom: 1px solid rgb(231, 231, 231);}
+    .productdownboxcontent a:first-child: {margin-top: 10px; border-top: 1px solid rgb(231, 231, 231);}
+    .logozone: {margin: 70px auto auto; height: 151px; line-height: 151px; width: 641px; text-align: center;}
+    .logozone img: {width: 270px; height: 129px; vertical-align: middle;}
+    .searchform: {position: relative; margin: 0px auto; width: 641px; height: 40px; font-size: 0px; text-align: left;}
+    .searchinput: {width: 523px; height: 20px; padding: 9px 7px; font-size: 16px; vertical-align: top; border: 1px solid rgb(184, 184, 184);}
+    .searchicon: {position: absolute; top: 0px; right: 111px; bottom: 0px; margin: auto; height: 16px; width: 18px; background: -webkit-image-set(url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_5606e8f.png") 1x, url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_x2_fb6c085.png") 2x) no-repeat rgb(255, 255, 255); cursor: pointer;}
+    .searchbutton: {display: inline-block; cursor: pointer; margin: 0px; padding: 0px; width: 102px; height: 40px; font-size: 16px; vertical-align: top; color: white; background-color: rgb(51, 136, 255); border: 0px;}
+    .contentbox: {margin: 100px auto auto; width: 896px; height: 404px; overflow: hidden; border: 1px solid rgb(231, 231, 231);}
+    .contentboxtopbar: {height: 40px; font-size: 0px; line-height: 0; border-bottom: 1px solid rgb(231, 231, 231);}
+    .myfocus, .myrecommand, .mynavigation: {display: inline-block; zoom: 1; width: 80px; height: 40px; font-size: 14px; line-height: 40px; color: rgb(51, 51, 51); vertical-align: top; text-align: center; cursor: pointer;}
+    .myfocus: {width: 124px;}
+    .myrecommand: {color: white; background: rgb(157, 157, 157);}
+    .myfocuslogo: {width: 17px; height: 17px; background: url("picture/myfocus_a2.png") 1px 0px no-repeat;}
+    .myfocus > *, .myrecommand > *, .mynavigation > *: {vertical-align: middle;}
+    .myfocus:hover, .myrecommand:hover, .mynavigation:hover: {font-weight: bold; color: white; background: rgb(190, 190, 190);}
+    .contentfocusbox: {display: inline-block; margin-top: 20px; margin-right: 5px; width: 100%;}
+    .contentfocusbox aside: {float: right; display: inline-block; width: 300px;}
+    .title-text, .hot-refresh, .hot-refresh-text: {color: black; text-decoration: none;}
+    .title-text: {font-size: 14px; font-weight: bold;}
+    .hot-refresh: {display: block; float: right; height: 22px; padding-top: 3px; padding-right: 30px; width: 60px; cursor: pointer;}
+    .hot-refresh-icon: {width: 20px; height: 16px; background: url("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mantpl/img/news/news_88aeb6fe.png") -23px -25px no-repeat; vertical-align: bottom;}
+    .hot-refresh-text: {font-size: 13px; width: 40px; text-align: center; white-space: nowrap;}
+    .newslistul: {float: left; padding-top: 20px; padding-right: 5px; width: 300px;}
+    .newslistli: {float: left; display: inline-block; margin-right: 3px; zoom: 1; width: 145px; height: 34px;}
+    .newslistli > *: {vertical-align: middle;}
+    .newslistli a: {max-width: 113px; font-size: 14px; color: rgb(51, 51, 51); text-overflow: ellipsis; text-decoration: none;}
+    .newslistli a:hover: {color: rgb(51, 153, 204); text-decoration: underline; font-weight: bold;}
+    .contentfocusboxleftside: {padding: 0px 25px; height: 100px; font-size: 0px;}
+    .contentfocusboxleftsidetop: {font-size: 13px; color: rgba(0, 0, 0, 0.4);}
+    .contentfocusboxleftsidetop > *: {vertical-align: middle;}
+    .line: {display: inline-block; height: 0px; width: 172px; font-size: 0px; border-bottom: 1px solid rgb(226, 226, 226);}
+    .baiduicon: {margin: 0px 6px; height: 14px; width: 14px; background: url("picture/zhuazi2.png") 1px 0px no-repeat;}
+    .newstable: {float: left; text-align: left; width: 535px;}
+    .hot-point: {padding: 0px 2px; font-size: 12px; line-height: 12px; color: rgb(241, 63, 64); border: 1px solid rgb(239, 185, 185); border-radius: 3px;}
+    .newsrows1title, .newsrows2title: {width: 100%; font-family: arial, "Microsoft Yahei", 微软雅黑; font-size: 18px; color: rgb(51, 51, 51); font-weight: bold; line-height: 53.6px; vertical-align: middle; text-decoration: none; text-overflow: ellipsis;}
+    .newsrows2title: {line-height: 24px;}
+    .newsrows1, .newsrows2: {padding-top: 8px; border-bottom: 1px solid rgb(226, 226, 226);}
+    .newsrows1picture: {font-size: 3px;}
+    .newsrows1 footer, .newsrows2 footer: {padding-top: 10px; padding-bottom: 19px; height: 15px; line-height: 15px; font-size: 13px; color: rgba(0, 0, 0, 0.4);}
+    .newsrows1 footer img, .newsrows2 footer img: {float: right; width: 19px; height: 15px; background: url("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mantpl/img/news/dustbin_new_41cbcb37.png") 0px -19px no-repeat; visibility: hidden;}
+    .src-net, .src-time: {margin-right: 10px; line-height: 15px; font-size: 13px; text-decoration: none; color: rgba(0, 0, 0, 0.4);}
+    .newsrows2: {display: table; zoom: 1; min-height: 140px; overflow: hidden;}
+    .newsrows2picture: {display: table-cell; padding: 20px 0px; vertical-align: middle; zoom: 1;}
+    .newsrows2textzone: {display: table-cell; padding-left: 21px; zoom: 1; width: 337px; vertical-align: middle;}
+    .morebar: {padding-top: 20px; margin: auto; cursor: pointer; width: 90px; height: 45px; text-align: center;}
+    .morebartext: {font-size: 12px; color: rgb(153, 153, 153);}
+    .morebartexttriangele: {height: 18px; width: 34px; margin: 10px auto 0px; border: 0px; font-size: 0px;}
+    .morebaroutertriangele: {position: relative; margin: 0px; padding: 0px; width: 0px; border-width: 16px; border-style: solid; border-color: black transparent transparent; border-image: initial;}
+    .morebarinnertriangele: {position: absolute; top: -16px; left: -15px; margin: 0px; padding: 0px; width: 0px; border-width: 15px; border-style: solid; border-color: white transparent transparent; border-image: initial;}
+    .myfooter: {margin: 70px auto; color: rgb(153, 153, 153); zoom: 1; font-size: 12px; text-align: center;}
+    .myfooter *: {vertical-align: middle; color: rgb(153, 153, 153); line-height: 19px;}
+    .ICPlogo: {display: inline-block; width: 19px; height: 19px; background: url("picture/ICPlogo2.png") 3px 0px no-repeat rgb(255, 255, 255);}
+    .sercuelogo: {display: inline-block; width: 20px; height: 20px; background: url("picture/surcue2.png") 3px 0px no-repeat rgb(255, 255, 255);}
+
+#### 4) 获取样式表
+> - 我们可以选择向页面内的某条stylesheet中添加样式。可以给link标签或者style标签添加ID，通过引用节点的sheet属性来获取CSSStyleSheet对象。页面中的stylesheets可以使用document.styleSheets来获取
+#### 5) 添加样式表
+> - 有些情况下，可能新建一个style节点来承装新添加的style rule。方法很简单：
+    
+                var addStyles = (function(styles) {
+                    
+                    var styleSheet, styleElt;
+                    if(document.createStyleSheet) {
+                        var styleSheet = document.createStyleSheet();
+                    }else{
+
+                        // Create the <style> tag
+                        styleElt = document.createElement("style");
+                        styleElt.appendChild(document.createTextNode(""));
+                        document.head.appendChild(styleElt);
+
+                        //新的样式表应该是最后一个
+                        styleSheet = document.styleSheets[document.styleSheets.length-1];
+                    }
+    
+                        //向样式表插入样式
+                        if(typeof styles === "string") {
+                            if(styleElt) {
+                                styleElt.innerHTML = styles;
+                            }else {
+                                styleSheet.cssText = styles; //IE API
+                            }
+                        }else {
+
+                            //强制使用insertRule或者addRule插入
+                        }
+                })("body {background: pink;}");  
+#### 6) 插入样式表
+> - **insertRule(styles,[index])** Stylesheets对象提供了insertRule（译者注：IE8及以下不兼容，具体参考链接http://www.quirksmode.org/dom/w3c_css.html ）
+> - **方法** insertRule函数要求传入css样式风格的str作为参数。
+> - **具体调用方法**：
+        
+               document.styleSheets[0].insertRule("body {background:pink;}", 1);
+                //（译者注：传入的样式str的格式要求很多。就我目前发现的：
+                // 1.{}两个花括号和前后最好都有一个空格 
+                // 2.如果是webkit内核，函数在解析带有-moz-前缀的样式规则时会抛err）
+
+                //结果
+                body {
+                    background: yellow;
+                }
+> - 这种方法看上去有点丑，但是确实有用。第二个参数Index，表示我们将在样式内部的哪一条插入新样式css rule，这就可以帮助我们实现原有样式的覆盖。默认index取值是-1(译者注：但是输入-1在chrome 41下抛了err，提示参数不能小于0，这里值得在研究一下)，表示默认在样式最后追加。如果想强制覆盖，可以使用！important，来避免插入次序引起其他问题。
+> - **非标准函数  addRule(selector,styles,index)**  CSSStyleSheet对象有一个非标准函数addRule，和insertRule相比，它更像js api的调用风格，无需自己注意插入的样式字符串的格式。addRule方法接受三个参数，分别是选择器selector，样式字符串"color:red;font-size:12px",和插入次序index。
+                
+                document.styleSheets[0].addRule("body", "background: white;", 4);
+                //方法有返回值，为-1。但是没有什么具体含义。
+                //这种方式可以快速高效的改变页面上节点的已有样式。
+
+                //结果
+                body {
+                    background: white;
+                }
+> - **应用样式** 因为上面提到两个函数都不是常见api函数，所以需要做浏览器兼容性处理。这种方法可以应用于所有高级的浏览器，如果还是有担心的话，可以在调用时使用try-catch结构
+        
+                function addCSSRule(sheet, selector, rules, index) {
+                    if("insertRule" in sheet) {
+                        sheet.insertRule(selector + "{" + rules + "}", index);
+                    }
+                    else if("addRule" in sheet) {
+                        sheet.addRule(selector, rules, index);
+                    }
+                }
+
+                // Use it!
+                addCSSRule(document.styleSheets[0], "header", "float: left");
+#### 7) 删除样式表
+> - 直接删除样式表中一整条规则，包括里面的各个属性　　
+            
+                document.styleSheets[索引].deleteRule(索引);
+                或者
+                //仅对IE有效
+                document.styleSheets[索引].removeRule(索引);
 
 
 
