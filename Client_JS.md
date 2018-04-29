@@ -966,7 +966,7 @@
                 或者
                 window.location.href="hello.html";
 #### 3) js手动新建跳转
-> -    window.open(url);................
+> -    window.open(url);
     
                 window.open("hello.html");
 #### 4) 历史记录跳转
@@ -1318,8 +1318,9 @@
 
         
 ------      
+         
         
-<h2 id='6'> 一、Web浏览器的JavaStript </h2>
+<h2 id='6'> 六、HTTP脚本化 </h2>
 <h3 id='6.1'>6.1 Ajax和Comet</h3>  
 
 #### 1) Ajax 
@@ -1337,8 +1338,9 @@
 > - img标签的src属性，通过URL用GET的方式传递消息给server，server必须返回一个图片作为请求结果，而且这个图片必须不可见，因为我只需要把信息从client指向server，不需要返回的消息，所以这个图片一般是一个1 X 1像素的透明图片。这种类型的图片又叫做网页信标(Web bug)，通常用于统计点击次数或者网站流量分析。但是它也有自己的缺陷，就是没办法返回有用的响应信息；
 > - iframe元素更为强大，利用src属性设置URL，可以使用server返回的文档并从中读取有用的信息。一般把iframe元素设置为不可见即可，但是它也有一个限制：受同源策略的限制；
 > - script元素，利用src属性设置URL并发起HTTP GET请求，由于其有规避同源策略的能力，且不受同源策略的限制
-<h3 id='6.2'>6.2 XMLHttpRequest</h3>  
-
+        
+<h3 id='6.2'>6.2 XMLHttpRequest</h3>         
+        
 #### 1) XMLHttpRequest类
 > - 浏览器的XMLHttpRequest类定义了它们的HTTP API。这个类的每个实例都表示一个独立的请求/响应对，并且允许指定请求细节和提取响应数据
         
@@ -1350,23 +1352,127 @@
 >> - 正在请求的URL；
 >> - 一个可选的请求头集合(表明请求主题的类型，以便server调用合适的程序进行处理)，其中包括身份验证的消息；
 >> - 一个可选的请求主体
-> - open()的第一个参数指定HTTP方法和动作，没有大小写的区分，但一般用大写。
+> - open(method, url)的第一个参数指定HTTP方法和动作，没有大小写的区分，但一般用大写。具体可以看[默默淡然的博客](https://www.cnblogs.com/liangxiaofeng/p/5798607.html)
 >> - GET 用于常规请求，适用于当URL完全指定请求资源，当请求对server没有副作用以及当server的响应可缓存
 >> - POST 常用于表单，请求主体中包含表单数据且这些数据需要存储到server中，这也就是所谓的副作用，同时不应该缓存使用这个方法的请求
->> - DELETE
->> - 
->> - 
->> - 
+>>>>>> ![图6-2 GET和POST的区别](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE6-2%20GET%E5%92%8CPOST%E7%9A%84%E5%8C%BA%E5%88%AB.png?raw=true)
+>> - DELETE 请求服务器删除Request-URI所标识的资源。 
+>> - HEAD 向服务器索要与GET请求相一致的响应，只不过响应体将不会被返回。这一方法可以在不必传输整个响应内容的情况下，就可以获取包含在响应消息头中的元信息。
+>> - OPTIONS 返回服务器针对特定资源所支持的HTTP请求方法。也可以利用向Web服务器发送'*'的请求来测试服务器的功能性。
+>> - PUT [跟POST方法很像，也是向服务器提交数据。但是，它们之间有不同。PUT指定了资源在服务器上的位置，而POST没有。PUT方法请求服务器去把请求里的实体存储在请求,URI（Request-URI）标识下。如果请求URI（Request-URI）指定的的资源已经在源服务器上存在，那么此请求里的实体应该被当作是源服务器关于此URI所指定资源,实体的最新修改版本。如果请求RI（Request-URI）指定的资源不存在，并且此URI被用户代理定义为一个新资源，那么源服务器就应该根据请求里的实体创建一个此URI所标识下的资源。如果一个新的资源被创建了，源服务器必须能向用户代理（user agent）发送201（已创建）响应。如果已存在的资源被改变了，那么源服务器应该发送200（Ok）或者204（无内容）响应。如果资源不能根据请求URI创建或者改变，一个合适的错误响应应该给出以反应问题的性质。实体的接收者不能忽略任何它不理解和不能实现的Content-*（如：Content-Range）头域，并且必须返回501（没有被实现）响应。如果请求穿过一个缓存（cache），并且此请求URI（Request-URI）指示了一个或多个当前缓存的实体，那么这些实体应该被看作是旧的。PUT方法的响应是不可缓存的。POST方法和PUT方法请求最根本的区别是请求URI（Request-URI）的含义不同。POST请求里的URI 指示一个能处理请求实体的资源（译注：此资源可能是一段程序，如jsp 里的servlet。此资源可能是一个数据接收过程，一个网关（gateway，译注：网关和代理的区别是：网关可以进行协议转换，而代理不能，只是起代理的作用，比如缓存服务器其实就是一个代理），或者一个单独接收注释的实体。对比而言，PUT方法请求里的URI标识请求里封装的实体一一用户代理知道URI意指什么，并且服务器不能把此请求应用于其它资源（resource）。如果服务器期望请求被应用于一个不同的URI，那么它必须发送301（永久移动）响应；用户代理可以自己决定是否重定向请求。一个单独的资  
+源可能会被许多不同的URI指定。如：一篇文章可能会有一个URI指定当前版本，而这个URI区别于这篇文章其它特殊版本的URI。这种情况下，对一个通用URI的PUT请求可能会导致其资源的其它URI请求被源服务器重定义。HTTP/1.1没有定义PUT方法对源服务器的状态影响。PUT方法请求里的实体头域应该被用于资源的创建或修改。](https://blog.csdn.net/resilient/article/details/52585724)  
+>> - TRACE 由于危险被禁止，回显服务器收到的请求，主要用于测试或诊断。 
+>> - CONNECT 由于危险被禁止，HTTP/1.1协议中预留给能够将连接改为管道方式的代理服务器。
+>> - TRACK 由于危险被禁止
+> - setRequestHeader(header, value)，它可以进行多次请求，而且后者并不会覆盖前者，这些请求头主要包括：
+>> - "Content-Type"，其值为MIME类型，如"text/plain"
+>> - 但是自己不能指定其他请求头，如"Content-Length"，"Date"，"Referer"或者"User-Agent"等，原因是XMLHtmlRequest为了避免请求头被伪造
         
+                //General
+                Request URL: http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePage.html
+                Request Method: GET
+                Status Code: 304 
+                Remote Address: 103.46.128.47:51688
+                Referrer Policy: no-referrer-when-downgrade
+
+                //Request Headers
+                GET /CompatTest/BaiduHomePage.html HTTP/1.1
+                Host: hblvsjtu.picp.io:51688
+                Connection: keep-alive
+                Cache-Control: max-age=0
+                Upgrade-Insecure-Requests: 1
+                User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36
+                Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+                Accept-Encoding: gzip, deflate
+                Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
+                If-None-Match: W/"28460-1524908730654"
+                If-Modified-Since: Sat, 28 Apr 2018 09:45:30 GMTSafari/537.36
+        
+> - send(body) 
+>> - GET请求绝对没有主体，所以send(null)或者send()
+>> - POST请求通常拥有主体，同时它应该匹配使用setRequestHeader()指定的"Content-Type"头
+> - 例子：
+             
+             var postMeg = function(msg) {
                 var httpRequest = new XMLHttpRequest();
-                httpRequest.open("GET", url);
+                httpRequest.open("POST", "http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePage.html");
                 httpRequest.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
-                httpRequest.send(mseeage);
+                httpRequest.send(msg);
+             }
+> - 顺序问题 先是请求方法和URL到达，然后是请求头，最后是请求主体。XMLHTMLRequest类直到调用send()方法的时候才开始启动网络。请求头必须在调用open()方法之后send()方法之前
+#### 3) 响应
+> - 由三部分组成：
+>> - 由数字或者文字组成的状态码，用来显式请求的成功或者失败
+>> - 一个响应头头集合
+>> - 响应主体               
+> - 例子：                              
+    
+                //General
+                Request URL: http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePage.html
+                Request Method: GET
+                Status Code: 304 
+                Remote Address: 103.46.128.47:51688
+                Referrer Policy: no-referrer-when-downgrade
 
->> -   
-> - 
-
-
+                //Response Headers
+                HTTP/1.1 304
+                ETag: W/"28460-1524908730654"
+                Date: Sun, 29 Apr 2018 02:48:21 GMT                                                           
+> - 数字status或者文字statusText组成的状态码 
+        
+<center>**[HTTP状态码分类](http://www.runoob.com/http/http-status-codes.html)**</center>
+>> 分类|分类描述
+>> -|-
+>> 1** |信息，服务器收到请求，需要请求者继续执行操作
+>> 2** |成功，操作被成功接收并处理
+>> 3** |重定向，需要进一步的操作以完成请求
+>> 4** |客户端错误，请求包含语法错误或无法完成请求
+>> 5** |服务器错误，服务器在处理请求的过程中发生了错误
+    
+<center>**[HTTP状态码列表](http://www.runoob.com/http/http-status-codes.html)**</center>
+>> 状态码 | 状态码英文名称 | 中文描述
+>> -|-|-
+>> 100 | Continue | 继续。客户端应继续其请求
+>> 101 | Switching Protocols | 切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议
+>> 200 | OK | 请求成功。一般用于GET与POST请求
+>> 201 | Created | 已创建。成功请求并创建了新的资源
+>> 202 | Accepted | 已接受。已经接受请求，但未处理完成
+>> 203 | Non-Authoritative Information | 非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本
+>> 204 | No Content | 无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档
+>> 205 | Reset Content | 重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域
+>> 206 | Partial Content | 部分内容。服务器成功处理了部分GET请求
+>> 300 | Multiple Choices | 多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择
+>> 301 | Moved Permanently | 永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替
+>> 302 | Found | 临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI
+>> 303 | See Other | 查看其它地址。与301类似。使用GET和POST请求查看
+>> 304 | Not Modified | 未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源
+>> 305 | Use Proxy | 使用代理。所请求的资源必须通过代理访问
+>> 306 | Unused | 已经被废弃的HTTP状态码
+>> 307 | Temporary Redirect | 临时重定向。与302类似。使用GET请求重定向
+>> 400 | Bad Request | 客户端请求的语法错误，服务器无法理解
+>> 401 | Unauthorized | 请求要求用户的身份认证
+>> 402 | Payment Required | 保留，将来使用
+>> 403 | Forbidden | 服务器理解请求客户端的请求，但是拒绝执行此请求
+>> 404 | Not Found | 服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置"您所请求的资源无法找到"的个性页面
+>> 405 | Method Not Allowed | 客户端请求中的方法被禁止
+>> 406 | Not Acceptable | 服务器无法根据客户端请求的内容特性完成请求
+>> 407 | Proxy Authentication Required | 请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权
+>> 408 | Request Time-out | 服务器等待客户端发送的请求时间过长，超时
+>> 409 | Conflict |  服务器完成客户端的PUT请求是可能返回此代码，服务器处理请求时发生了冲突
+>> 410 | Gone | 客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置
+>> 411 | Length Required | 服务器无法处理客户端发送的不带Content-Length的请求信息
+>> 412 | Precondition Failed | 客户端请求信息的先决条件错误
+>> 413 | Request Entity Too Large | 由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息
+>> 414 | Request-URI Too Large | 请求的URI过长（URI通常为网址），服务器无法处理
+>> 415 | Unsupported Media Type | 服务器无法处理请求附带的媒体格式
+>> 416 | Requested range not satisfiable | 客户端请求的范围无效
+>> 417 | Expectation Failed | 服务器无法满足Expect的请求头信息
+>> 500 | Internal Server Error | 服务器内部错误，无法完成请求
+>> 501 | Not Implemented | 服务器不支持请求的功能，无法完成请求
+>> 502 | Bad Gateway | 充当网关或代理的服务器，从远端服务器接收到了一个无效的请求
+>> 503 | Service Unavailable | 由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
+>> 504 | Gateway Time-out | 充当网关或代理的服务器，未及时从远端服务器获取请求
+>> 505 | HTTP Version not supported | 服务器不支持请求的HTTP协议的版本，无法完成处理
 
 
 
