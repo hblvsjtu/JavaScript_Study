@@ -44,7 +44,11 @@
 ## [五、脚本化CSS](#5)
 ### [5.1 脚本化内联样式](#5.1)
 ### [5.2 脚本化CSS类](#5.2) 
-### [5.3 脚本化样式表](#5.3)        
+### [5.3 脚本化样式表](#5.3) 
+## [六、脚本化HTTP](#6)
+### [6.1 Ajax和Comet](#6.1)
+### [6.2 XMLHttpRequest](#6.2) 
+### [6.3 脚本化样式表](#6.3)        
 ------ 		
         
 
@@ -962,7 +966,7 @@
                 或者
                 window.location.href="hello.html";
 #### 3) js手动新建跳转
-> -    window.open(url);
+> -    window.open(url);................
     
                 window.open("hello.html");
 #### 4) 历史记录跳转
@@ -1312,7 +1316,55 @@
                 //仅对IE有效
                 document.styleSheets[索引].removeRule(索引);
 
+        
+------      
+        
+<h2 id='6'> 一、Web浏览器的JavaStript </h2>
+<h3 id='6.1'>6.1 Ajax和Comet</h3>  
 
+#### 1) Ajax 
+> - Ajax Asynchronous JavaScript and XML，是一种使用脚本操纵HTTP的Web应用架构
+> - 主要特点是使用脚本操纵HTTP和Web服务器进行数据Ajax Asynchronous JavaScript and XML，交换，不会导致页面重载。
+> - 方向是从client指向server；
+> - 异步
+#### 2) Comet 
+> - 也是一种使用脚本操纵HTTP的Web应用架构
+> - 方向跟Ajax相反，server指向client
+> - 在Comet中，Web服务器发起通信并异步发送消息到客户端。如果Web应用需要响应服务端发送的消息，则会利用Ajax技术发送或者请求数据
+> - 服务器保持打开直到它需要推送一条消息，服务器每发送完一条消息就关闭连接，这样可以确保客户端正确接收到消息，处理该消息之后，客户端马上为后续的消息推送建立一个新的连接。
+> - 异步
+#### 3) 实现方式
+> - img标签的src属性，通过URL用GET的方式传递消息给server，server必须返回一个图片作为请求结果，而且这个图片必须不可见，因为我只需要把信息从client指向server，不需要返回的消息，所以这个图片一般是一个1 X 1像素的透明图片。这种类型的图片又叫做网页信标(Web bug)，通常用于统计点击次数或者网站流量分析。但是它也有自己的缺陷，就是没办法返回有用的响应信息；
+> - iframe元素更为强大，利用src属性设置URL，可以使用server返回的文档并从中读取有用的信息。一般把iframe元素设置为不可见即可，但是它也有一个限制：受同源策略的限制；
+> - script元素，利用src属性设置URL并发起HTTP GET请求，由于其有规避同源策略的能力，且不受同源策略的限制
+<h3 id='6.2'>6.2 XMLHttpRequest</h3>  
+
+#### 1) XMLHttpRequest类
+> - 浏览器的XMLHttpRequest类定义了它们的HTTP API。这个类的每个实例都表示一个独立的请求/响应对，并且允许指定请求细节和提取响应数据
+        
+                var httpRequest = new XMLHttpRequest();
+> - 你也能重用之前的实例，但是这样的话会终止之前通过该对象挂起的任何请求。
+#### 2) 请求
+> - 由四部分组成：
+>> - HTTP请求方法或动作；
+>> - 正在请求的URL；
+>> - 一个可选的请求头集合(表明请求主题的类型，以便server调用合适的程序进行处理)，其中包括身份验证的消息；
+>> - 一个可选的请求主体
+> - open()的第一个参数指定HTTP方法和动作，没有大小写的区分，但一般用大写。
+>> - GET 用于常规请求，适用于当URL完全指定请求资源，当请求对server没有副作用以及当server的响应可缓存
+>> - POST 常用于表单，请求主体中包含表单数据且这些数据需要存储到server中，这也就是所谓的副作用，同时不应该缓存使用这个方法的请求
+>> - DELETE
+>> - 
+>> - 
+>> - 
+        
+                var httpRequest = new XMLHttpRequest();
+                httpRequest.open("GET", url);
+                httpRequest.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+                httpRequest.send(mseeage);
+
+>> -   
+> - 
 
 
 
