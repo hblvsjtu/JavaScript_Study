@@ -48,7 +48,19 @@
 ## [六、脚本化HTTP](#6)
 ### [6.1 Ajax和Comet](#6.1)
 ### [6.2 XMLHttpRequest](#6.2) 
-### [6.3 脚本化样式表](#6.3)        
+### [6.3 编码请求主体](#6.3)      
+### [6.4 HTTP进度事件](#6.4)
+### [6.5 跨域请求](#6.5)
+## [七、客户端储存](#7)
+### [7.1 客户端储存简介](#7.1)
+### [6.2 XMLHttpRequest](#7.2) 
+### [6.3 编码请求主体](#7.3)      
+### [6.4 HTTP进度事件](#7.4)
+### [6.5 跨域请求](#7.5)
+## [附件](#10)
+### [1,遍历样式表结果](#10.1)
+### [2,HTTP状态码列表](#10.2) 
+### [6.3 脚本化样式表](#10.3)   
 ------ 		
         
 
@@ -1156,87 +1168,7 @@
                     var selector = rules[i].selectorText; 
                     var ruleText = rules[i].style.cssText;
                     console.log(selector+": {" + ruleText + "}")};
-
-    //结果
-    body: {background: pink;}
-    body: {background: yellow;}
-    .top: {padding-right: 95px; min-width: 1000px; height: 30px; font-family: sans-serif; font-size: 12px; line-height: 0px; border-bottom: 1px solid rgb(231, 231, 231);}
-    .top a: {padding: 0px 0.5em; line-height: 30px; vertical-align: middle; color: black;}
-    .weatherclick: {display: inline-block; margin-left: 15px; padding-right: 7px; text-decoration: none; line-height: 20px !important;}
-    .weatherclick:hover: {background: pink;}
-    .icon: {display: inline-block; width: 20px; height: 20px; vertical-align: bottom; background: url("https://ss0.bdstatic.com/k4oZeXSm1A5BphGlnYG/icon/weather/aladdin/png_18/a0.png") no-repeat;}
-    .weatherquality: {color: rgb(186, 220, 0); margin-left: 7px; margin-right: 7px;}
-    .weatherqualitynumber::after: {content: ""; font-size: 10px; border-right: 1px solid black; padding-left: 1em;}
-    .toprightlist: {float: right; height: 30px; line-height: 30px; text-align: center; overflow: hidden;}
-    .toprightlist:hover: {overflow: visible;}
-    .triangle: {width: 0px; border-bottom: 8px solid rgb(153, 153, 153); border-left: 4px solid transparent; border-right: 4px solid transparent; margin-left: auto; margin-right: auto;}
-    .outertriangle: {width: 0px; border-bottom: 8px solid rgb(153, 153, 153); border-left: 8px solid transparent; border-right: 8px solid transparent; margin-left: auto; margin-right: auto;}
-    .innertriangle: {position: relative; margin-top: -7px; margin-left: auto; margin-right: auto; width: 0px; border-bottom: 7px solid white; border-left: 7px solid transparent; border-right: 7px solid transparent;}
-    .toprightlist .itembox: {display: inline-block; margin-top: -1px; line-height: 30px; text-decoration: none; border: 1px solid rgb(153, 153, 153); box-shadow: rgb(153, 153, 153) 2px 2px 2px;}
-    .toprightlist li: {display: block; text-align: center;}
-    .toprightlist li a: {text-decoration: none;}
-    .toprightlink: {float: right; font-size: 14px; line-height: 30px;}
-    .productbox: {position: absolute; top: 0px; right: 0px; height: 30px; width: 85px; color: white; background: rgb(57, 139, 251); overflow: hidden;}
-    .productbox:hover: {float: none; bottom: 0px; height: 100%; color: black; background: rgb(240, 240, 240);}
-    .productupbox: {width: 100%; height: 31px; line-height: 30px; text-align: center;}
-    .productupbox span: {font-size: 13px; vertical-align: middle;}
-    .productdownbox: {height: 100%; background: rgb(240, 240, 240); overflow: auto;}
-    .productdownboxcontent: {height: 700px; width: 65px; margin-left: 10px; background: rgb(240, 240, 240);}
-    .productdownboxcontent a: {display: block; padding: 10px 0px; font-size: 12px; color: black; text-align: center; text-decoration: none; border-bottom: 1px solid rgb(231, 231, 231);}
-    .productdownboxcontent a:first-child: {margin-top: 10px; border-top: 1px solid rgb(231, 231, 231);}
-    .logozone: {margin: 70px auto auto; height: 151px; line-height: 151px; width: 641px; text-align: center;}
-    .logozone img: {width: 270px; height: 129px; vertical-align: middle;}
-    .searchform: {position: relative; margin: 0px auto; width: 641px; height: 40px; font-size: 0px; text-align: left;}
-    .searchinput: {width: 523px; height: 20px; padding: 9px 7px; font-size: 16px; vertical-align: top; border: 1px solid rgb(184, 184, 184);}
-    .searchicon: {position: absolute; top: 0px; right: 111px; bottom: 0px; margin: auto; height: 16px; width: 18px; background: -webkit-image-set(url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_5606e8f.png") 1x, url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_x2_fb6c085.png") 2x) no-repeat rgb(255, 255, 255); cursor: pointer;}
-    .searchbutton: {display: inline-block; cursor: pointer; margin: 0px; padding: 0px; width: 102px; height: 40px; font-size: 16px; vertical-align: top; color: white; background-color: rgb(51, 136, 255); border: 0px;}
-    .contentbox: {margin: 100px auto auto; width: 896px; height: 404px; overflow: hidden; border: 1px solid rgb(231, 231, 231);}
-    .contentboxtopbar: {height: 40px; font-size: 0px; line-height: 0; border-bottom: 1px solid rgb(231, 231, 231);}
-    .myfocus, .myrecommand, .mynavigation: {display: inline-block; zoom: 1; width: 80px; height: 40px; font-size: 14px; line-height: 40px; color: rgb(51, 51, 51); vertical-align: top; text-align: center; cursor: pointer;}
-    .myfocus: {width: 124px;}
-    .myrecommand: {color: white; background: rgb(157, 157, 157);}
-    .myfocuslogo: {width: 17px; height: 17px; background: url("picture/myfocus_a2.png") 1px 0px no-repeat;}
-    .myfocus > *, .myrecommand > *, .mynavigation > *: {vertical-align: middle;}
-    .myfocus:hover, .myrecommand:hover, .mynavigation:hover: {font-weight: bold; color: white; background: rgb(190, 190, 190);}
-    .contentfocusbox: {display: inline-block; margin-top: 20px; margin-right: 5px; width: 100%;}
-    .contentfocusbox aside: {float: right; display: inline-block; width: 300px;}
-    .title-text, .hot-refresh, .hot-refresh-text: {color: black; text-decoration: none;}
-    .title-text: {font-size: 14px; font-weight: bold;}
-    .hot-refresh: {display: block; float: right; height: 22px; padding-top: 3px; padding-right: 30px; width: 60px; cursor: pointer;}
-    .hot-refresh-icon: {width: 20px; height: 16px; background: url("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mantpl/img/news/news_88aeb6fe.png") -23px -25px no-repeat; vertical-align: bottom;}
-    .hot-refresh-text: {font-size: 13px; width: 40px; text-align: center; white-space: nowrap;}
-    .newslistul: {float: left; padding-top: 20px; padding-right: 5px; width: 300px;}
-    .newslistli: {float: left; display: inline-block; margin-right: 3px; zoom: 1; width: 145px; height: 34px;}
-    .newslistli > *: {vertical-align: middle;}
-    .newslistli a: {max-width: 113px; font-size: 14px; color: rgb(51, 51, 51); text-overflow: ellipsis; text-decoration: none;}
-    .newslistli a:hover: {color: rgb(51, 153, 204); text-decoration: underline; font-weight: bold;}
-    .contentfocusboxleftside: {padding: 0px 25px; height: 100px; font-size: 0px;}
-    .contentfocusboxleftsidetop: {font-size: 13px; color: rgba(0, 0, 0, 0.4);}
-    .contentfocusboxleftsidetop > *: {vertical-align: middle;}
-    .line: {display: inline-block; height: 0px; width: 172px; font-size: 0px; border-bottom: 1px solid rgb(226, 226, 226);}
-    .baiduicon: {margin: 0px 6px; height: 14px; width: 14px; background: url("picture/zhuazi2.png") 1px 0px no-repeat;}
-    .newstable: {float: left; text-align: left; width: 535px;}
-    .hot-point: {padding: 0px 2px; font-size: 12px; line-height: 12px; color: rgb(241, 63, 64); border: 1px solid rgb(239, 185, 185); border-radius: 3px;}
-    .newsrows1title, .newsrows2title: {width: 100%; font-family: arial, "Microsoft Yahei", 微软雅黑; font-size: 18px; color: rgb(51, 51, 51); font-weight: bold; line-height: 53.6px; vertical-align: middle; text-decoration: none; text-overflow: ellipsis;}
-    .newsrows2title: {line-height: 24px;}
-    .newsrows1, .newsrows2: {padding-top: 8px; border-bottom: 1px solid rgb(226, 226, 226);}
-    .newsrows1picture: {font-size: 3px;}
-    .newsrows1 footer, .newsrows2 footer: {padding-top: 10px; padding-bottom: 19px; height: 15px; line-height: 15px; font-size: 13px; color: rgba(0, 0, 0, 0.4);}
-    .newsrows1 footer img, .newsrows2 footer img: {float: right; width: 19px; height: 15px; background: url("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mantpl/img/news/dustbin_new_41cbcb37.png") 0px -19px no-repeat; visibility: hidden;}
-    .src-net, .src-time: {margin-right: 10px; line-height: 15px; font-size: 13px; text-decoration: none; color: rgba(0, 0, 0, 0.4);}
-    .newsrows2: {display: table; zoom: 1; min-height: 140px; overflow: hidden;}
-    .newsrows2picture: {display: table-cell; padding: 20px 0px; vertical-align: middle; zoom: 1;}
-    .newsrows2textzone: {display: table-cell; padding-left: 21px; zoom: 1; width: 337px; vertical-align: middle;}
-    .morebar: {padding-top: 20px; margin: auto; cursor: pointer; width: 90px; height: 45px; text-align: center;}
-    .morebartext: {font-size: 12px; color: rgb(153, 153, 153);}
-    .morebartexttriangele: {height: 18px; width: 34px; margin: 10px auto 0px; border: 0px; font-size: 0px;}
-    .morebaroutertriangele: {position: relative; margin: 0px; padding: 0px; width: 0px; border-width: 16px; border-style: solid; border-color: black transparent transparent; border-image: initial;}
-    .morebarinnertriangele: {position: absolute; top: -16px; left: -15px; margin: 0px; padding: 0px; width: 0px; border-width: 15px; border-style: solid; border-color: white transparent transparent; border-image: initial;}
-    .myfooter: {margin: 70px auto; color: rgb(153, 153, 153); zoom: 1; font-size: 12px; text-align: center;}
-    .myfooter *: {vertical-align: middle; color: rgb(153, 153, 153); line-height: 19px;}
-    .ICPlogo: {display: inline-block; width: 19px; height: 19px; background: url("picture/ICPlogo2.png") 3px 0px no-repeat rgb(255, 255, 255);}
-    .sercuelogo: {display: inline-block; width: 20px; height: 20px; background: url("picture/surcue2.png") 3px 0px no-repeat rgb(255, 255, 255);}
-
+[遍历样式表结果](#10.1)
 #### 4) 获取样式表
 > - 我们可以选择向页面内的某条stylesheet中添加样式。可以给link标签或者style标签添加ID，通过引用节点的sheet属性来获取CSSStyleSheet对象。页面中的stylesheets可以使用document.styleSheets来获取
 #### 5) 添加样式表
@@ -1403,9 +1335,10 @@
 #### 3) 响应
 > - 由三部分组成：
 >> - 由数字或者文字组成的状态码，用来显式请求的成功或者失败
->> - 一个响应头头集合
->> - 响应主体               
-> - 例子：                              
+>> - 一个响应头头集合 getResponseHeader()和getAllResponseHeaders()能查询响应头
+>> - 响应主体 responseText属性能得到响应文本，从responseXML属性中能得到Document形式
+> - 同步响应，只要在open(method, url, bool)的布尔值设置为false即可             
+> - 响应头例子：                              
     
                 //General
                 Request URL: http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePage.html
@@ -1418,8 +1351,49 @@
                 HTTP/1.1 304
                 ETag: W/"28460-1524908730654"
                 Date: Sun, 29 Apr 2018 02:48:21 GMT                                                           
-> - 数字status或者文字statusText组成的状态码 
+> - 数字status或者文字statusText组成的状态码，不过我发现statusText有时会用不了，还是用数字的比较靠谱
+> - 发送请求后，send()方法立即返回。而直到响应返回，前面列出的响应方法和属性才有效。loading状态下有可能触发多次readyStatechange事件来给出进度反馈
+> - 为了监听readyStatechange事件，可以使用XMLHTMLRequest类的onreadyStatechange属性，当然了，也可以使用addEventListener()或者attachEvent()(除IE8及之前的版本) 
+> - readyStatechange事件
+     
+<center>**readyState的值**</center>
+>> 常量|值|含义
+>> -|-|-
+>> UNSENT|0|open()尚未调用
+>> OPENED|1|open()已调用
+>> HEADERS-RECEIVED|2|接收到头信息
+>> LOADING|3|接收到响应主体
+>> DONE|4|响应完成
+    
+> - 例子
         
+                /* 原生Ajax功能
+                 * 采用本地调试的时候遭遇跨域问题
+                 * No 'Access-Control-Allow-Origin' header is present on the requested resource.'Ajax跨域访问解决方案
+                 * 采用外网调试的时候就那没问题
+                 * 发现statusText有时会用不了，还是用数字的比较靠谱 
+                 */
+                var getMeg = function() {
+                    var httpRequest = new XMLHttpRequest();
+                    httpRequest.open("GET", "http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePag.html");
+                    httpRequest.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
+                    httpRequest.onreadystatechange = function() {
+                        console.log("HTTP请求的状态 = "+ httpRequest.readyState);
+                        if(httpRequest.readyState === 4 && httpRequest.status === 200) {
+                            var type = httpRequest.getResponseHeader("Content-Type");
+                            if(type.match(/^text/)) {
+                                console.log(httpRequest.responseText);
+                            }else {
+                                console.log("Content-Type is not text!");
+                            }
+                        }else {
+                            console.log("HTTP状态码 = "+ httpRequest.status);
+                            
+                        }
+                    }
+                    httpRequest.send(null);                   
+                }
+                searchinput.addEventListener("click", getMeg, false);        
 <center>**[HTTP状态码分类](http://www.runoob.com/http/http-status-codes.html)**</center>
 >> 分类|分类描述
 >> -|-
@@ -1428,7 +1402,333 @@
 >> 3** |重定向，需要进一步的操作以完成请求
 >> 4** |客户端错误，请求包含语法错误或无法完成请求
 >> 5** |服务器错误，服务器在处理请求的过程中发生了错误
-    
+[HTTP状态码列表](#10.2)
+
+#### 4) 响应解码
+> -  MIME类型及对应的响应方式
+>> - responseText: "text/plain" "text/css" "text/html" "application/json" "application/x-www-form-urlencoded"
+        
+                //判断方式
+                var type = htmlRequest.getResponseHeader("Content-Type");
+                if(type === "application/json") {
+                    //处理函数
+                }
+>> - responseXML: XML或者XHTML文档。这个属性的值是document对象
+        
+                //判断方式
+                var type = htmlRequest.getResponseHeader("Content-Type");
+                if(type.indexOf("XML") !== -1 && htmlRequest.responseXML) {
+                    //处理函数
+                }
+
+        
+<h3 id='6.3'>6.3 编码请求主体</h3>
+        
+#### 1) 表单编码的请求
+> - MIME类型必须设置为"application/x-www-form-urlencoded"
+> - 表单中的数据以名值对的形式表示，名值对之间用"&"连接，名和值之间用"="连接
+> - 如
+        
+                name1=value1&name2=value2&name3=value3 
+> - 然后对名值对执行普通的URL编码（使用十六进制转义码替换特殊字符，）
+#### 2) 对对象进行编码
+> - 首先是为啥要对对象进行编码呢？因为我们从表单或者其他地方得到的需要传输的数据一般都是以对象的形式存在。需要将对象转化成"name1=value1&name2=value2&name3=value3"这种格式才行。
+        
+                /* 对象编码模块
+                  * 主要针对表单对象
+                  */
+                 var encodeFormData = function(data) {
+                    var name;
+                    var value;
+                    var pair = []; //为了保存名值对；
+                    if(!data) return "";
+                    for(name in data) {
+
+                        //跳过继承过来的属性
+                        if(!data.hasOwnProperty(name)) continue;
+
+                        //跳过函数
+                        if(typeof data[name] === "function") continue;
+
+                        //替换特殊符号
+                        value = data[name].toString();
+                        name = encodeURIComponent(name.replace("%20", "+"));
+                        value = encodeURIComponent(value.replace("%20", "+"));
+                        pair.push(name + "=" + value);
+                    }
+                    return pair.join("&");
+                } 
+> - 另外，关于encodeURIComponent(URIstring)函数，[W3School](http://www.w3school.com.cn/jsref/jsref_encodeURIComponent.asp)有详细的解释。或者看[dz45693的博客](https://blog.csdn.net/ma_jiang/article/details/50896048)。把字符串URIstring作为URI组件进行编码。转义用于分隔URI各个部分的标点符号。返回值为URIstring的副本，其中的某些字符将被十六进制的转义序列进行替换。该方法不会对 ASCII 字母和数字进行编码，也不会对这些 ASCII 标点符号进行编码： - _ . ! ~ * ' ( ) 。
+        
+                <script type="text/javascript">
+                    document.write(encodeURIComponent("http://www.w3school.com.cn"))
+                    document.write("<br />")
+                    document.write(encodeURIComponent("http://www.w3school.com.cn/p 1/"))
+                    document.write("<br />")
+                    document.write(encodeURIComponent(",/?:@&=+$#"))
+                </script>
+
+                //输出
+                http%3A%2F%2Fwww.w3school.com.cn
+                http%3A%2F%2Fwww.w3school.com.cn%2Fp%201%2F
+                %2C%2F%3F%3A%40%26%3D%2B%24%23
+> - 那至于为什么要对URI进行编码呢？[hbiao68的专栏](https://blog.csdn.net/hbiao68/article/details/17113843)给出了答案："为什么需要Url编码，通常如果一样东西需要编码，说明这样东西并不适合传输。原因多种多样，如Size过大，包含隐私数据，对于Url来说，之所 以要进行编码，是因为Url中有些字符会引起歧义。例如Url参数字符串中使用key=value键值对这样的形式来传参，键值对之间以&符号分隔，如/s?q=abc&ie=utf-8。如果你的value字符串中包含了=或者&,那么势必会造成接收Url的服务器解析错误，因此必须将引起歧义的&和=符号进行转义，也就是对其进行编码。 又如，Url的编码格式采用的是ASCII码，而不是Unicode，这也就是说你不能在Url中包含任何非ASCII字符，例如中文。否则如果客户端浏览器和服务端浏览器支持的字符集不同的情况下，中文可能会造成问题。"
+#### 3) 对表单数据进行传输
+> - 一个简单的POST请求
+        
+                // 一个简单的POST请求
+                var MesPost = function(URL, data, callBack) {
+                    var request = new XMLHttpRequest;
+                    request.open("POST", URL);
+                    request.onreadystatechange = function() {
+                        if(request.readyState === 4 && request.status === 200 && callBack) {
+                            callBack(request);
+                        }
+                    }
+                    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                    request.send(encodeFormData(data));
+                }
+> - 一个简单的GET请求
+        
+                // 一个简单的GET请求
+                // 如果没有显式地设置Content-Type头，那么XHR会自动补上
+                // "ext/plain; charset=UTF-8"头
+                var MesPost = function(URL, data, callBack) {
+                    var request = new XMLHttpRequest;
+                    request.open("GET", URL + "?" + encodeFormData(data));
+                    request.onreadystatechange = function() {
+                        if(request.readyState === 4 && request.status === 200 && callBack) {
+                            callBack(request);
+                        }
+                    }
+                    request.send(null);
+                }
+         
+
+<h3 id='6.4'>6.4 HTTP进度事件</h3>
+        
+#### 1) 事件集
+> - XHR2规范中定义了许多事件集，这就意味着不需要总是先检查XMLHtmlRequest.readyState的值
+>> - 比如调用send()的时候触发单个loadstart事件。
+>> - 当加载服务器响应的时候，发生progress事件，通常每隔50毫秒左右，可以使用这些事件来反馈请求的进度。progress事件对象有几个比较好用的属性
+>>> - lengthComputable 如果从"Content-length"头得知传输数据的整体长度(单位是字节)不为0，此时其值为true，否则为false;
+>>> - loaded 目前传输的字节数；
+>>> - total 从"Content-length"头得知传输数据的整体长度(单位是字节)
+        
+                /* HTML进度模块
+                 */
+                 var progressModuel = function(ele, htmlRequest) {
+                    if(typeof ele !== "string") {
+                        throw new Error("类型错误"); 
+                    }else {
+                        var element = document.getElementById(ele);
+                        if("onprogress" in htmlRequest) {
+                            //支持progress事件；
+                            htmlRequest.onprogress = function(e) {
+                                if(e.lengthComputable) {
+                                   element.value = Math.round(100*e.loaded/e.total) + "% complete";
+                                   console.log("progressModuelfunction");
+                                }
+                             }
+                        }
+                    } 
+                 }
+>> - 当事件完成的时候触发**load事件**。HTTP请求无法完成有3中情况，对应着三种事件：请求超时(触发timeout事件)；请求中止(触发abort事件)；由于太多重定向造成的网络错误(触发error事件)。目前会发生而且仅会触发load事件，timeout事件，abort事件，error事件的其中一个。当上面任意一个事件结束的时候，浏览器会触发**loadend事件**；
+#### 2) 上传文件
+> - 参见[芭蕉扇的博客](https://www.cnblogs.com/tianyuchen/p/5594641.html)
+> - 需要后端的处理，具体就是在url那里下功夫
+                
+                <!DOCTYPE html>
+                <html>
+                <head>
+                <meta charset="UTF-8">
+                    <title>XMLHttpRequest上传文件进度实现</title>
+                    <script type="text/javascript">
+                        var xhr;
+                        var ot;//
+                        var oloaded;
+                        //上传文件方法
+                        function UpladFile() {
+                            var fileObj = document.getElementById("file").files[0]; // js 获取文件对象
+                            var url = "uploadFile"; // 接收上传文件的后台地址 
+                            
+                            var form = new FormData(); // FormData 对象
+                            form.append("mf", fileObj); // 文件对象
+                            
+                            xhr = new XMLHttpRequest();  // XMLHttpRequest 对象
+                            xhr.open("post", url, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+                            xhr.onload = uploadComplete; //请求完成
+                            xhr.onerror =  uploadFailed; //请求失败
+                            xhr.upload.onprogress = progressFunction;//【上传进度调用方法实现】
+                            xhr.upload.onloadstart = function(){//上传开始执行方法
+                                ot = new Date().getTime();   //设置上传开始时间
+                                oloaded = 0;//设置上传开始时，以上传的文件大小为0
+                            };
+                            xhr.send(form); //开始上传，发送form数据
+                        }
+                        //上传进度实现方法，上传过程中会频繁调用该方法
+                        function progressFunction(evt) {
+                            
+                             var progressBar = document.getElementById("progressBar");
+                             var percentageDiv = document.getElementById("percentage");
+                             // event.total是需要传输的总字节，event.loaded是已经传输的字节。如果event.lengthComputable不为真，则event.total等于0
+                             if (evt.lengthComputable) {//
+                                 progressBar.max = evt.total;
+                                 progressBar.value = evt.loaded;
+                                 percentageDiv.innerHTML = Math.round(evt.loaded / evt.total * 100) + "%";
+                             }
+                            
+                            var time = document.getElementById("time");
+                            var nt = new Date().getTime();//获取当前时间
+                            var pertime = (nt-ot)/1000; //计算出上次调用该方法时到现在的时间差，单位为s
+                            ot = new Date().getTime(); //重新赋值时间，用于下次计算
+                            
+                            var perload = evt.loaded - oloaded; //计算该分段上传的文件大小，单位b       
+                            oloaded = evt.loaded;//重新赋值已上传文件大小，用以下次计算
+                        
+                            //上传速度计算
+                            var speed = perload/pertime;//单位b/s
+                            var bspeed = speed;
+                            var units = 'b/s';//单位名称
+                            if(speed/1024>1){
+                                speed = speed/1024;
+                                units = 'k/s';
+                            }
+                            if(speed/1024>1){
+                                speed = speed/1024;
+                                units = 'M/s';
+                            }
+                            speed = speed.toFixed(1);
+                            //剩余时间
+                            var resttime = ((evt.total-evt.loaded)/bspeed).toFixed(1);
+                            time.innerHTML = '，速度：'+speed+units+'，剩余时间：'+resttime+'s';
+                               if(bspeed==0)
+                                time.innerHTML = '上传已取消';
+                        }
+                        //上传成功响应
+                        function uploadComplete(evt) {
+                         //服务断接收完文件返回的结果
+                         //    alert(evt.target.responseText);
+                             alert("上传成功！");
+                        }
+                        //上传失败
+                        function uploadFailed(evt) {
+                            alert("上传失败！");
+                        }
+                          //取消上传
+                        function cancleUploadFile(){
+                            xhr.abort();
+                        }
+                    </script>
+                </head>
+                <body>
+                    <progress id="progressBar" value="0" max="100" style="width: 300px;"></progress>
+                    <span id="percentage"></span><span id="time"></span>
+                    <br /><br />
+                    <input type="file" id="file" name="myfile" />
+                    <input type="button" onclick="UpladFile()" value="上传" />
+                    <input type="button" onclick="cancleUploadFile()" value="取消" />
+                </body>
+                </html> 
+
+                
+------      
+         
+        
+<h2 id='7'> 七、客户端储存</h2>
+<h3 id='7.1'>7.1 客户端储存简介</h3>
+        
+#### 1) 事件集
+> -                         
+------      
+                
+<h2 id='10'> 附件 </h2> 
+<h3 id='10.1'>1,遍历样式表结果</h3>
+        
+
+        //结果
+        body: {background: pink;}
+        body: {background: yellow;}
+        .top: {padding-right: 95px; min-width: 1000px; height: 30px; font-family: sans-serif; font-size: 12px; line-height: 0px; border-bottom: 1px solid rgb(231, 231, 231);}
+        .top a: {padding: 0px 0.5em; line-height: 30px; vertical-align: middle; color: black;}
+        .weatherclick: {display: inline-block; margin-left: 15px; padding-right: 7px; text-decoration: none; line-height: 20px !important;}
+        .weatherclick:hover: {background: pink;}
+        .icon: {display: inline-block; width: 20px; height: 20px; vertical-align: bottom; background: url("https://ss0.bdstatic.com/k4oZeXSm1A5BphGlnYG/icon/weather/aladdin/png_18/a0.png") no-repeat;}
+        .weatherquality: {color: rgb(186, 220, 0); margin-left: 7px; margin-right: 7px;}
+        .weatherqualitynumber::after: {content: ""; font-size: 10px; border-right: 1px solid black; padding-left: 1em;}
+        .toprightlist: {float: right; height: 30px; line-height: 30px; text-align: center; overflow: hidden;}
+        .toprightlist:hover: {overflow: visible;}
+        .triangle: {width: 0px; border-bottom: 8px solid rgb(153, 153, 153); border-left: 4px solid transparent; border-right: 4px solid transparent; margin-left: auto; margin-right: auto;}
+        .outertriangle: {width: 0px; border-bottom: 8px solid rgb(153, 153, 153); border-left: 8px solid transparent; border-right: 8px solid transparent; margin-left: auto; margin-right: auto;}
+        .innertriangle: {position: relative; margin-top: -7px; margin-left: auto; margin-right: auto; width: 0px; border-bottom: 7px solid white; border-left: 7px solid transparent; border-right: 7px solid transparent;}
+        .toprightlist .itembox: {display: inline-block; margin-top: -1px; line-height: 30px; text-decoration: none; border: 1px solid rgb(153, 153, 153); box-shadow: rgb(153, 153, 153) 2px 2px 2px;}
+        .toprightlist li: {display: block; text-align: center;}
+        .toprightlist li a: {text-decoration: none;}
+        .toprightlink: {float: right; font-size: 14px; line-height: 30px;}
+        .productbox: {position: absolute; top: 0px; right: 0px; height: 30px; width: 85px; color: white; background: rgb(57, 139, 251); overflow: hidden;}
+        .productbox:hover: {float: none; bottom: 0px; height: 100%; color: black; background: rgb(240, 240, 240);}
+        .productupbox: {width: 100%; height: 31px; line-height: 30px; text-align: center;}
+        .productupbox span: {font-size: 13px; vertical-align: middle;}
+        .productdownbox: {height: 100%; background: rgb(240, 240, 240); overflow: auto;}
+        .productdownboxcontent: {height: 700px; width: 65px; margin-left: 10px; background: rgb(240, 240, 240);}
+        .productdownboxcontent a: {display: block; padding: 10px 0px; font-size: 12px; color: black; text-align: center; text-decoration: none; border-bottom: 1px solid rgb(231, 231, 231);}
+        .productdownboxcontent a:first-child: {margin-top: 10px; border-top: 1px solid rgb(231, 231, 231);}
+        .logozone: {margin: 70px auto auto; height: 151px; line-height: 151px; width: 641px; text-align: center;}
+        .logozone img: {width: 270px; height: 129px; vertical-align: middle;}
+        .searchform: {position: relative; margin: 0px auto; width: 641px; height: 40px; font-size: 0px; text-align: left;}
+        .searchinput: {width: 523px; height: 20px; padding: 9px 7px; font-size: 16px; vertical-align: top; border: 1px solid rgb(184, 184, 184);}
+        .searchicon: {position: absolute; top: 0px; right: 111px; bottom: 0px; margin: auto; height: 16px; width: 18px; background: -webkit-image-set(url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_5606e8f.png") 1x, url("https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_x2_fb6c085.png") 2x) no-repeat rgb(255, 255, 255); cursor: pointer;}
+        .searchbutton: {display: inline-block; cursor: pointer; margin: 0px; padding: 0px; width: 102px; height: 40px; font-size: 16px; vertical-align: top; color: white; background-color: rgb(51, 136, 255); border: 0px;}
+        .contentbox: {margin: 100px auto auto; width: 896px; height: 404px; overflow: hidden; border: 1px solid rgb(231, 231, 231);}
+        .contentboxtopbar: {height: 40px; font-size: 0px; line-height: 0; border-bottom: 1px solid rgb(231, 231, 231);}
+        .myfocus, .myrecommand, .mynavigation: {display: inline-block; zoom: 1; width: 80px; height: 40px; font-size: 14px; line-height: 40px; color: rgb(51, 51, 51); vertical-align: top; text-align: center; cursor: pointer;}
+        .myfocus: {width: 124px;}
+        .myrecommand: {color: white; background: rgb(157, 157, 157);}
+        .myfocuslogo: {width: 17px; height: 17px; background: url("picture/myfocus_a2.png") 1px 0px no-repeat;}
+        .myfocus > *, .myrecommand > *, .mynavigation > *: {vertical-align: middle;}
+        .myfocus:hover, .myrecommand:hover, .mynavigation:hover: {font-weight: bold; color: white; background: rgb(190, 190, 190);}
+        .contentfocusbox: {display: inline-block; margin-top: 20px; margin-right: 5px; width: 100%;}
+        .contentfocusbox aside: {float: right; display: inline-block; width: 300px;}
+        .title-text, .hot-refresh, .hot-refresh-text: {color: black; text-decoration: none;}
+        .title-text: {font-size: 14px; font-weight: bold;}
+        .hot-refresh: {display: block; float: right; height: 22px; padding-top: 3px; padding-right: 30px; width: 60px; cursor: pointer;}
+        .hot-refresh-icon: {width: 20px; height: 16px; background: url("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mantpl/img/news/news_88aeb6fe.png") -23px -25px no-repeat; vertical-align: bottom;}
+        .hot-refresh-text: {font-size: 13px; width: 40px; text-align: center; white-space: nowrap;}
+        .newslistul: {float: left; padding-top: 20px; padding-right: 5px; width: 300px;}
+        .newslistli: {float: left; display: inline-block; margin-right: 3px; zoom: 1; width: 145px; height: 34px;}
+        .newslistli > *: {vertical-align: middle;}
+        .newslistli a: {max-width: 113px; font-size: 14px; color: rgb(51, 51, 51); text-overflow: ellipsis; text-decoration: none;}
+        .newslistli a:hover: {color: rgb(51, 153, 204); text-decoration: underline; font-weight: bold;}
+        .contentfocusboxleftside: {padding: 0px 25px; height: 100px; font-size: 0px;}
+        .contentfocusboxleftsidetop: {font-size: 13px; color: rgba(0, 0, 0, 0.4);}
+        .contentfocusboxleftsidetop > *: {vertical-align: middle;}
+        .line: {display: inline-block; height: 0px; width: 172px; font-size: 0px; border-bottom: 1px solid rgb(226, 226, 226);}
+        .baiduicon: {margin: 0px 6px; height: 14px; width: 14px; background: url("picture/zhuazi2.png") 1px 0px no-repeat;}
+        .newstable: {float: left; text-align: left; width: 535px;}
+        .hot-point: {padding: 0px 2px; font-size: 12px; line-height: 12px; color: rgb(241, 63, 64); border: 1px solid rgb(239, 185, 185); border-radius: 3px;}
+        .newsrows1title, .newsrows2title: {width: 100%; font-family: arial, "Microsoft Yahei", 微软雅黑; font-size: 18px; color: rgb(51, 51, 51); font-weight: bold; line-height: 53.6px; vertical-align: middle; text-decoration: none; text-overflow: ellipsis;}
+        .newsrows2title: {line-height: 24px;}
+        .newsrows1, .newsrows2: {padding-top: 8px; border-bottom: 1px solid rgb(226, 226, 226);}
+        .newsrows1picture: {font-size: 3px;}
+        .newsrows1 footer, .newsrows2 footer: {padding-top: 10px; padding-bottom: 19px; height: 15px; line-height: 15px; font-size: 13px; color: rgba(0, 0, 0, 0.4);}
+        .newsrows1 footer img, .newsrows2 footer img: {float: right; width: 19px; height: 15px; background: url("https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/mantpl/img/news/dustbin_new_41cbcb37.png") 0px -19px no-repeat; visibility: hidden;}
+        .src-net, .src-time: {margin-right: 10px; line-height: 15px; font-size: 13px; text-decoration: none; color: rgba(0, 0, 0, 0.4);}
+        .newsrows2: {display: table; zoom: 1; min-height: 140px; overflow: hidden;}
+        .newsrows2picture: {display: table-cell; padding: 20px 0px; vertical-align: middle; zoom: 1;}
+        .newsrows2textzone: {display: table-cell; padding-left: 21px; zoom: 1; width: 337px; vertical-align: middle;}
+        .morebar: {padding-top: 20px; margin: auto; cursor: pointer; width: 90px; height: 45px; text-align: center;}
+        .morebartext: {font-size: 12px; color: rgb(153, 153, 153);}
+        .morebartexttriangele: {height: 18px; width: 34px; margin: 10px auto 0px; border: 0px; font-size: 0px;}
+        .morebaroutertriangele: {position: relative; margin: 0px; padding: 0px; width: 0px; border-width: 16px; border-style: solid; border-color: black transparent transparent; border-image: initial;}
+        .morebarinnertriangele: {position: absolute; top: -16px; left: -15px; margin: 0px; padding: 0px; width: 0px; border-width: 15px; border-style: solid; border-color: white transparent transparent; border-image: initial;}
+        .myfooter: {margin: 70px auto; color: rgb(153, 153, 153); zoom: 1; font-size: 12px; text-align: center;}
+        .myfooter *: {vertical-align: middle; color: rgb(153, 153, 153); line-height: 19px;}
+        .ICPlogo: {display: inline-block; width: 19px; height: 19px; background: url("picture/ICPlogo2.png") 3px 0px no-repeat rgb(255, 255, 255);}
+        .sercuelogo: {display: inline-block; width: 20px; height: 20px; background: url("picture/surcue2.png") 3px 0px no-repeat rgb(255, 255, 255);}
+
+       
+<h3 id='10.2'>2,HTTP状态码列表</h3>        
+        
 <center>**[HTTP状态码列表](http://www.runoob.com/http/http-status-codes.html)**</center>
 >> 状态码 | 状态码英文名称 | 中文描述
 >> -|-|-
@@ -1473,6 +1773,7 @@
 >> 503 | Service Unavailable | 由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
 >> 504 | Gateway Time-out | 充当网关或代理的服务器，未及时从远端服务器获取请求
 >> 505 | HTTP Version not supported | 服务器不支持请求的HTTP协议的版本，无法完成处理
+       
 
 
 
