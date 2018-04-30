@@ -1394,7 +1394,9 @@
                     httpRequest.send(null);                   
                 }
                 searchinput.addEventListener("click", getMeg, false);        
-<center>**[HTTP状态码分类](http://www.runoob.com/http/http-status-codes.html)**</center>
+<center><a href="http://www.runoob.com/http/http-status-codes.html"><b>HTTP状态码分类</b></a></center>
+        
+        
 >> 分类|分类描述
 >> -|-
 >> 1** |信息，服务器收到请求，需要请求者继续执行操作
@@ -1402,6 +1404,7 @@
 >> 3** |重定向，需要进一步的操作以完成请求
 >> 4** |客户端错误，请求包含语法错误或无法完成请求
 >> 5** |服务器错误，服务器在处理请求的过程中发生了错误
+        
 [HTTP状态码列表](#10.2)
 
 #### 4) 响应解码
