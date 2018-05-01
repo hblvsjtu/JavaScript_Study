@@ -1998,8 +1998,10 @@
     
 <h3 id='8.2'>8.2 历史记录管理</h3>    
         
-#### 1) 
-> - 
+#### 1) 结构性复制structured clone
+> - 对一个对象进行深拷贝或者深复制，进而递归地复制所有嵌套对象或者数组的内容
+> - 比如我们熟悉的序列化JSON.stringgfy和JSON.parse
+>>>>>> ![图8-1 结构性复制](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE8-1%20%E7%BB%93%E6%9E%84%E6%80%A7%E5%A4%8D%E5%88%B6.png?raw=true)
 > - 
     
 <h3 id='8.3'>8.3 跨域消息传递</h3>    
@@ -2007,7 +2009,7 @@
 #### 1) 简介
 > - 一般来讲，一个窗口或者一个标签中运行的代码其他窗口中完全无法识别。
 > - 但是也有例外，比如当用脚本显式打开一个新窗口或者在嵌套的窗体中运行的时候，多个窗口或者嵌套的窗体之间是可以互相识别的。如果这些窗口或者嵌套的窗体是同源的，那么还可以相互进行交互和操作对方的文档。
-#### 2) postMessage()
+#### 2) postMessage() 具体可以看[谦行的博客](https://www.cnblogs.com/dolphinX/p/3464056.html),
 > - 这种技术叫"跨文档消息传递"，定义在window对象上，而非document文档对象，允许非同源的脚本的调用；
 > - 异步消息传递，所有主流的浏览器(包括IE8和更新的版本)都已经实现了该通信机制
 > - postMessage(data,origin)方法接受两个参数
@@ -2047,11 +2049,102 @@
 > - source：发送消息的窗口对象
 > - origin：发送消息窗口的源（协议+主机+端口号）
     
-<h3 id='8.4'>8.4 Web Worker</h3>    
+<h3 id='8.4'>8.4 Web Worker 详细的可以看<a href="https://blog.csdn.net/ningtt/article/details/74980291">ningtt的博客</a></h3>    
         
-#### 1) 
-> - 
+#### 1) 简介
+> - 运行在一个自包含的执行环境，无法访问Window对象和Document对象，和主线程之间的通信也是通过异步消息传递机制来实现的
+#### 2) Worker对象
+> - 需要创建，把js脚本的URL传递进去作为参数，且该脚本与文档是同源的
         
+                var loader = new Worker(url);
+> - 要注意的是，Worker对象的postMessage()是没有参数的，这一点跟Window对象的postMessage()不同(它有两个参数)，        
+> - 简而言之，就是允许JavaScript创建多个线程，但是子线程完全受主线程控制，且不得操作DOM。
+从而，可以用webWorker来处理一些比较耗时的计算。
+> - 使用web worker主要分为以下几部分
+>> - WEB主线程:
+        
+        1.通过 worker = new Worker( url ) 加载一个JS文件来创建一个worker，同时返回一个worker实例。
+        2.通过worker.postMessage( data ) 方法来向worker发送数据。
+        3.绑定worker.onmessage方法来接收worker发送过来的数据。
+        4.可以使用 worker.terminate() 来终止一个worker的执行。
+>> - worker新线程：
+         
+        1.通过postMessage( data ) 方法来向主线程发送数据。
+        2.绑定onmessage方法来接收主线程发送过来的数据。                    
+> - postMessage(data) 子线程与主线程之间互相通信使用方法，传递的data为任意值
+> - terminate() 主线程中终止worker，此后无法再利用其进行消息传递。注意：一旦terminate后，无法重新启用，只能另外创建。
+        
+                worker.terminate();
+> - message  当有消息发送时，触发该事件。且，消息发送是双向的，消息内容可通过data来获取。
+message使用，可见terminate中的demo
+> - error 出错处理。且错误消息可以通过e.message来获取worker.js执行的上下文，与主页面html执行时的上下文并不相同，最顶层的对象并不是window，woker.js执行的全局上下文，是个叫做WorkerGlobalScope的东东，所以无法访问window、与window相关的DOM API，但是可以与setTimeout、setInterval等协作。
+#### 3) Worker作用域——WorkerGlobalScope全局对象
+> - 由于Worker指定的代码运行在全新的JS环境中
+> - WorkerGlobalScope全局对象则表示了该新的运行环境
+> - WorkerGlobalScope全局对象在某种意义上讲大于核心的JS全局对象，小于整个客户端的Window对象；
+> - 在Worker中的JS代码内调用的postMessage()方法会触发Worker外部的一个message事件，而Worker外部传递的消息会转换成一个事件，并传递给onmessage事件处理程序；
+> - 要注意的是，WorkerGlobalScope全局对象是一个供Worker使用的全局对象，因此该对象上的postMessage()方法和onmessage属性在worker代码中使用的时候，看起来就像是全局函数和全局变量；
+> - self 我们可以使用 WorkerGlobalScope 的 self 属性来或者这个对象本身的引用
+> - location location 属性返回当线程被创建出来的时候与之关联的 WorkerLocation对象，它表示用于初始化这个工作线程的脚步资源的绝对URL，即使页面被多次重定向后，这个 URL 资源位置也不会改变。
+> - close 关闭当前线程，与terminate作用类似
+> - XMLHttpRequest 有了它，才能发出Ajax请求
+> - setTimeout/setInterval以及addEventListener/postMessage
+> - importScripts()方法，这是一个同步的方法，以用来加载其他库，接受一个或者多个URL参数，相对地址的参考是传递给Worker构造函数的URL，如：
+        
+                importScripts("collections/Set.js", "collections/Map.js");
+#### 4) 例子
+> - fibonacci.js 在JS中不需要Worker.onmessage或者Worker.postMessage，直接上来就可以用
+                
+                //fibonacci.js
+                var fibonacci =function(n) {
+                    return n <2? n : arguments.callee(n -1) + arguments.callee(n -2);
+                };
+                onmessage =function(event) {
+                    var n = parseInt(event.data, 10);
+                    postMessage(fibonacci(n));
+                };
+
+> - HTML文档
+                
+                <!DOCTYPE HTML>
+                <html>
+                <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+                <title>web worker fibonacci</title>
+                <script type="text/javascript">
+                  onload =function(){
+                      var worker =new Worker('fibonacci.js');  
+                      worker.addEventListener('message', function(event) {
+                        var timer2 = (new Date()).valueOf();
+                           console.log( '结果：'+event.data, '时间:'+ timer2, '用时：'+ ( timer2  - timer ) );
+                      }, false);
+                      var timer = (new Date()).valueOf();
+                      console.log('开始计算：40','时间:'+ timer );
+                      setTimeout(function(){
+                          console.log('定时器函数在计算数列时执行了', '时间:'+ (new Date()).valueOf() );
+                      },1000);
+                      worker.postMessage(40);
+                      console.log('我在计算数列的时候执行了', '时间:'+ (new Date()).valueOf() );
+                  }  
+                  </script>
+                </head>
+                <body>
+                </body>
+                </html>
+
+#### 5) 优缺点：
+> - 优点：
+>> - 1.可以加载一个JS进行大量的复杂计算而不挂起主进程，并通过postMessage，onmessage进行通信
+>> - 2.可以在worker中通过importScripts(url)加载另外的脚本文件
+>> - 3.可以使用 setTimeout(), clearTimeout(), setInterval(), and clearInterval()
+>> - 4.可以使用XMLHttpRequest来发送请求
+>> - 5.可以访问navigator的部分属性
+> - 缺点：
+>> - 1.不能跨域加载JS
+>> - 2.worker内代码不能访问DOM
+>> - 3.各个浏览器对Worker的实现不大一致，例如FF里允许worker中创建新的worker,而Chrome中就不行
+>> - 4.不是每个浏览器都支持这个新特性
+
 <h3 id='8.5'>8.5 类型化数组和ArrayBuffer</h3>    
         
 #### 1) 
