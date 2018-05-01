@@ -53,14 +53,22 @@
 ### [6.5 跨域请求](#6.5)
 ## [七、客户端储存](#7)
 ### [7.1 客户端储存简介](#7.1)
-### [6.2 XMLHttpRequest](#7.2) 
-### [6.3 编码请求主体](#7.3)      
-### [6.4 HTTP进度事件](#7.4)
-### [6.5 跨域请求](#7.5)
+### [7.2 localStorage和sessionStorage](#7.2) 
+### [7.3 cookie](#7.3)      
+### [7.4 应用程存储和离线Web应用](#7.4)
+## [八、HTML5 API](#8)
+### [8.1 地理位置](#8.1)
+### [8.2 历史记录管理](#8.2) 
+### [8.3 跨域消息传递](#8.3)      
+### [8.4 Web Worker](#8.4)
+### [8.5 类型化数组和ArrayBuffer](#8.5)
+### [8.6 Blob](#8.6) 
+### [8.7 文件系统API](#8.7)      
+### [8.8 客户端数据库](#8.8)
 ## [附件](#10)
-### [1,遍历样式表结果](#10.1)
-### [2,HTTP状态码列表](#10.2) 
-### [6.3 脚本化样式表](#10.3)   
+### [1、遍历样式表结果](#10.1)
+### [2、HTTP状态码列表](#10.2) 
+### [3、permanote.js](#10.3)   
 ------ 		
         
 
@@ -193,6 +201,12 @@
 
 #### 1) prompt() 
 >> - 获取输入对话框，需要用户输入后选择确认。会产生阻塞。
+        
+                我的名字：<span id="myName"></span>
+                <script type="text/javascript">
+                    var name = prompt("What is your name?");
+                    document.getElementById("myName").innerHTML=name;
+                </script>
 #### 2) confirm() 
 >> - 确认对话框，需要用户点击确认。会产生阻塞。
 #### 3) alert() 
@@ -1396,7 +1410,7 @@
                 searchinput.addEventListener("click", getMeg, false);        
 <center><a href="http://www.runoob.com/http/http-status-codes.html"><b>HTTP状态码分类</b></a></center>
         
-        
+
 >> 分类|分类描述
 >> -|-
 >> 1** |信息，服务器收到请求，需要请求者继续执行操作
@@ -1641,12 +1655,429 @@
 <h2 id='7'> 七、客户端储存</h2>
 <h3 id='7.1'>7.1 客户端储存简介</h3>
         
-#### 1) 事件集
-> -                         
-------      
+#### 1) 遵循同源策略
+> - 不同站点的页面是无法相互读取对方存储的数据，而同一站点的不同页面之间是可以相互共享存储数据的
+#### 2) 分类
+> - Web存储 包括localStorage对象和sessionStorage对象，最初作为HTML5的一部分被定义为API的形式，实际上它们都是持久化关联数组(Storage对象)，同时也是window对象的属性；
+> - cookie  早期的客户端储存机制，但是风评很差，document的属性;
+> - IE User Data 巨硬公司早期的专属客户端存储机制；
+> - 离线web应用 就是把整个Web应用方法客户端那里，妈妈再也不用担心我断网；
+> - Web数据库 各家浏览器厂商并不打算实现它
+> - 文件系统API
+        
+<h3 id='7.2'>7.2 localStorage和sessionStorage</h3>
+        
+#### 1) 储存的有效期和作用域不同
+> - 拥有getItem(), setItem(), removeItem(), clear()等方法；
+> - 拥有类似数组一样的[]方法和.方法；
+#### 2) localStorage
+> - 永久性，除非Web应用刻意删除，或者用户自己删除，否则一直会存在于用户的电脑
+> - 作用域限定于相同的文档源和浏览器供应商。这意味着chrome和Firefox的不能相互访问；
                 
+                localStorage.setItem("sex", "male");
+                console.log(localStorage.getItem("sex"));
+>>>>>> ![图7-1 文档源](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE7-1%20%E6%96%87%E6%A1%A3%E6%BA%90.png?raw=true)
+        
+#### 3) sessionStorage
+> - 暂时性
+> - 同源而且是同一个标签页的顶级窗口，也就是说在一个标签页里面不同的iframe元素窗口中的sessionStorage数据是可以共享的;
+        
+                
+                sessionStorage.setItem("id", 116020910160);
+                console.log(sessionStorage.getItem("id"));
+#### 4) 存储API
+> - setItem();
+> - getItem();
+> - removeItem();
+> - clear();
+> - length
+> - key() 枚举名字
+> - 如果存储的是数组或者对象的时候，获取该对象或者数组的时候也要求获取的是该对象的副本，以确保以获取对象的改动不会影响到存储的对象。 
+>>>>>> ![图7-2 存储API](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE7-2%20%E5%AD%98%E5%82%A8API.png?raw=true) 
+        
+                // 识别出使用的是哪类存储机制
+                var memory = window.localStorage || 
+                            (window.UserDataStorage && new UserDataStorage()) ||
+                            new cookieStorage();
+                // 然后在对应的机制中查询数据
+                var name = memory.getItem("username");
+#### 5) 存储事件
+> - localStorage和存储事件都是采用广播机制的，浏览器会对目前正在访问同样站点的所有窗口发送消息
+> - 与存储事件相关的5个非常重要的特性
+>> - key
+>> - newValue
+>> - oldValue
+>> - storageArea
+>> - url
+        
+<h3 id='7.3'>7.3 cookie</h3>
+        
+#### 1) 安全性
+> - JS中使用cookie不会采用任何加密机制，因此它们是不安全的。但是使用https来传输的话cookie数据是安全的，不过这和cookie本身无关，而和cookie本身无关，而和https:协议相关
+> - 与安全性相关的属性就是secure，它是一个布尔值，一旦cookie被认为是安全的，那只有https等安全的协议才能传递它。
+#### 2) 操作API
+> - 没有专门的API，所以需要直接通过以特殊格式的字符串形式读写Document对象cookie属性来完成。
+> - 有效期和作用域都是通过cookie属性来分别指定 
+#### 3) 有效期
+> - 默认是整个浏览器进程的生命周期
+> - 可以通过设置max-age属性来修改
+#### 4) 作用域
+> - 通过文档源和文档路径来确定的
+> - 通过cookie的path和domain属性也可以配置
+> - 默认与创建它的页面有关，并对该Web页面以及和该Web页面同目录或者子目录的其他Web页面可见
+> - 但是也可以修改，通过修改path路径，如果将path路径设置为"/"，那么该cookie对该台服务器上的所有页面都是可见的，这就相当于跟localStorage拥有相同的作用域
+> - 如果一个Web页面想要读取同一站点其他页面的cookie，只要简单的将其他页面以隐藏的iframe元素的形式加载进来，随后读取对应文档的cookie即可。但是由于同源策略的限制，只能对于同源的服务器这样做。
+> - 如果想要跨域的话，那么就需要设置cookie的domain属性，比如在catalog.example.com域下的一个页面创建了一个cookie，并将其path设置为“/”，其domain设置为.example.com，那么这个cookie对catalog.example.com，order.example.com，以及任何其他example.com域下的任何服务器都可见。
+#### 5) 保存cookie
+> - cookie是document的属性
+        
+                document.cookie = "version=" + encodeURIComponent(document.lastModified);
+> - 名值对中不允许包含分号，逗号和空白符，因此在存储前一般采用全局函数encodeURIComponent()对值及进行编码
+> - 延长有效期，单位是秒
+        
+                name=value; max-age = seconds;
+> - 还有其他特性，使用字符串拼接在其后即可
+        
+                name=value; max-age = seconds; path=path; domain=domain; sercue
+> - 要改变cookie的值，需要相同的名字，路径和域，有效期可改可不改；
+> - 要删除一个cookie，也需要相同的的名字，路径和域，然后其值指定为任意非空值，并且将max-age属性指定为0，只要将cookie的过期时间设置为负值，cookie就会直接消失。
+        
+                /* cookie保存
+                 */
+                var saveCookie = function(name, value, maxAge, domain, path) {
+                    if(name && value) {
+                        cookie = encodeURIComponent(name) + "=" +encodeURIComponent(value) + "; ";
+                        cookie += "max-age=" + maxAge + "; ";
+                        if(domain) cookie += "domain=" + domain + "; ";
+                        if(path) cookie += "path=" + path + "; ";
+                        document.cookie = cookie;
+                    }
+                } 
+                
+                saveCookie("name", "lvhongchao", 10, ".hblvsjtu.picp.io", "/");
+                saveCookie("name", "lvhongchao", 0, ".hblvsjtu.picp.io", "/");
+#### 6) 读取cookie
+> - 目前的情况下只能读取名值对，都不了域和路径；
+> - 注意分号后面还有一个空格；
+                
+                /* cookie读取
+                 */
+                 var readCookie = function() {
+                    var cookie = {};
+                    var all = document.cookie;
+                    if(all === "") {
+                        console.log("the cookie is null");
+                        return;
+                    }
+                    var list = all.split("; ");
+                    for(var i=0; i<list.length; i++) {
+                        var pairs = list[i];
+                        var p = pairs.indexOf("=");
+                        var name = pairs.substring(0, p);
+                        var value = pairs.substring(p+1);
+                        value = decodeURIComponent(value);
+                        cookie[name] = value;
+                        console.log(name + " = " +value);
+                    }
+                    return cookie;
+                 }
+
+                readCookie();
+
+#### 7) cookie的局限性
+> - 标准规定浏览器的保存不超过300个cookie；
+> - 每个服务器保存不超过20个；
+> - 每个cookie大小不超过4KB；
+        
+<h3 id='7.4'>7.4 应用程存储和离线Web应用</h3>
+                
+#### 1) 步骤
+> - 网站的每一个html页面都必须设置html元素的manifest属性。Must to do；
+> - 在你的整个网站应用中，只能有一个cache.manifest文件（建议放在网站根目录下）；
+> - 部分浏览器（如IE8-）不支持HTML5离线缓存；
+> - “#” 开头的注释行可满足其他用途。应用的缓存会在其 manifest 文件更改时被更新。如果您编辑了一幅图片，或者修改了一个 JavaScript 函数
+> - 真正运行或测试离线web应用程序的时候，需要对服务器进行配置，让服务器支持text/cache-manifest这个MIME类型（在h5中规定manifest文件的MIME类型是text/cache-manifest）。
+#### 2) 缓存的更新
+> - 当一个web应用从缓存中载入的时候，所有与之相关的文件也是直接从缓存中获取。在线状态下，浏览器会异步地检查清单文件是否有更新。
+> - 如果有更新，新的清单文件以及清单中的列举的所有文件都会下载下来重新保存到程序缓存中。但要注意浏览器只是检查清单文件，而不会检查缓存的文件是否有更新，如果修改一个缓存的js文件，并且要想让该文件生效，就必须去更新下清单文件。由于应用程序依赖的文件列表其实并没有变化，因此最简单的方式就是更新版本。代码如下：
+        
+                CHCHE MANIFEST  
+                CACHE:  
+                #version 1.0 
+                 myapp.html  
+                 myapp.css  
+                 myapp.js  
+#### 3) applicationCache对象
+> - 属于window的属性
+> - 拥有显式更新缓存的方法
+>> - update() 如果检测到相同的一份缓存清单，那么还是会跟原来的一样
+>> - swapCache() 告诉浏览器弃用老的缓存而采用新的缓存，但是不会去主动联网来获取新的缓存，在updateready事件，或者onobsolete事件中采用意义(立即弃用废弃的缓存，而从网络中获取) 但是这种方法好像已经被标准所弃用
+#### 4) navigator.online
+> - 该属性可以检验浏览器是否在线 
+> - true表示在线
+> - false表示离线
+#### 5) 缓存状态
+> - 缓存的状态可以通过window.applicationCache.status获得，其状态主要包括如下6种：
+>> - UNCACHED=0;//未缓存(应用程序没有设置manifest属性：未缓存)  
+>> - IDLE=1;//空闲状态(清单文件已经检查完毕，并且已经缓存了最新的应用程序)    
+>> - CHECKING=2;//检查中(浏览器正在检查清单文件)    
+>> - DOWNLOADING=3;//下载中(浏览器正在下载并缓存清单中列举的所有文件)  
+>> - UPDATEREADY=4;//更新准备中(已经下载和缓存了最新版的应用程序)  
+>> - OBSOLETE =5;//过期状态(清单文件不存在，缓存将被清除) 
+#### 6) 优缺点，[来自知乎用户黎博的回答](https://www.zhihu.com/question/35130316)
+> - 简单来说，不好用。来分析下manifest的优缺点优点可以离线运行可以减少资源请求可以更新资源缺点更新的资源，需要**二次刷新**才会被页面采用不支持增量更新，只有manifest发生变化，所有资源全部重新下载一次缺乏足够容错机制，当清单中任意资源文件出现加载异常，都会导致整个manifest策略运行异常。
+> - **全量加载**和**二次刷新**这两个缺点就已经够严重了。我们再来看看其优点是不是真的那么好用。
+> - 1.离线运行对于普通页面来说，离线运行没什么用；对于webapp来说，这个特性还不错；对于hybird app来说，也没什么用。
+> - 2.减少资源请求HTTP协议的Cache-Control和Expires就也能在缓存有效期内，不再发送资源请求
+> - 3.可以更新资源manifest是文件被更新后，全量更新缓存。而改用HTTP协议的缓存方案，只需要对资源文件引用的URL做少许变动即可刷新缓存，例如补个时间戳参数一个manifest相关的坑，虽然也能填：如何不让html5 app cache的manifest缓存当前页面?
+
+作者：黎博
+链接：https://www.zhihu.com/question/35130316/answer/91006638
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+
+                //html文件
+                <<!DOCTYPE html>
+                <html manifest="myapp.appcache">
+                    <head>
+                        <title></title>
+                    </head>
+                    <body>
+                    </body>
+                    <script type="text/javascript">
+                        /* 下面所有的事件处理程序都使用此函数来显示状态消息  
+                         * 由于都是通过调用status函数来显示状态，因此所有处理程序都返回false来阻止浏览器显示其默认状态消息
+                         */  
+                        function status(msg){  
+                            console.log(msg); //同时在控制台输出此消息，便于调试  
+                        } 
+
+                        /* 每当应用程序载入的时候，都会检查该清单文件  
+                         * 也总会首先触发"checking"事件
+                         */  
+                        window.applicationCache.onchecking = function(){  
+                            status("checking for a new version.");  
+                            return false;  
+                        }  
+
+                        /* 如果没有改动，同时应用程序也已经缓存了  
+                         * "noupdate"事件被触发，整个过程结束 
+                         */ 
+                        window.applicationCache.onnoupdate = function(){ 
+                            status("The application has been cached"); 
+                        } 
+
+                        /* 如果还未缓存应用程序，或者清单文件有改动  
+                         * 那么浏览器会下载并缓存清单中的所有资源  
+                         * 触发"downloading"事件，同时意味着下载过程开始
+                         */  
+                        window.applicationCache.ondownloading = function(){  
+                            status("Downloading new version");  
+                            window.progresscount = 0;  
+                            return false;  
+                        } 
+
+                        /* 在下载过程中会间断性触发"progress"事件  
+                         * 通常是在每个文件下载完毕的时候 
+                         */
+                        window.applicationCache.onprogress = function(e){  
+                            varprogress = "";  
+                            if(e && e.lengthComputable)  
+                                   progress = " "+Math.round(100*e.loaded/e.total)+"%"  
+                            else  
+                                   progress = "("+(++progresscount)+")"  
+                            return false;  
+                        }
+
+                        /* 当下载完成并且首次将应用程序下载到缓存中时
+                         * 浏览器会触发"cached"事件
+                         */  
+                        window.applicationCache.oncached = function(e){  
+                            status("This application has been cached before");  
+                            return false;  
+                        }  
+                           
+                        /* 当下载完成并将缓存中的应用程序更新后，浏览器会触发"updaterady"事件  
+                         * 要注意的是：触发此事件的时候，用户任然可以看到老版本的应用程序
+                         */  
+                        window.applicationCache.onupdateready = function(e){  
+                            var reload = confirm("A new version has been downloaded. Would you like to Reload to run it?");
+                    if(reload) {
+                            applicationCache.swapCache();
+                            if(navigator.onLine) status("navigator.onLine"); 
+                            window.location.reload(); 
+                    }
+                    return false;   
+                        }  
+                           
+                        /* 如果浏览器处于离线状态，检查清单列表失败，则会触发"error"事件  
+                         * 当一个未缓存的应用程序引用一个不存在的清单文件，也会触发此事件
+                         */ 
+                        window.applicationCache.onerror = function(e){  
+                            status("Couldn’t load manifest or cache application");  
+                            return false;  
+                        }  
+                           
+                        /* 如果一个缓存的应用程序引用一个不存在的清单文件，会触发"obsolete"  
+                         * 同时将应用从缓存中移除之后不会从缓存而是通过网络加载资源
+                         */  
+                           window.applicationCache.onobsolete = function(e){  
+                                status("This application is no longer cached. Reload to get the latest version from thenetwork.");  
+                                return false;  
+                           }  
+                    </script>
+                    </script>
+                </html>
+
+        
+                //manifest.appcache文件
+                CACHE MANIFEST
+                # version 2018-05-01 15:34
+                CACHE:
+                BaiduHomePage.html
+                BaiduHomePage.css
+                jquery-3.3.1.js
+                myIcon.ico
+                picture/surcue2.png
+                picture/zhuazi2.png
+                picture/mylogo.png
+
+                FALLBACK:
+                BaiduHomePage.html
+
+                NETWORK:
+
+                //调试结果：
+                checking for a new version.
+                BaiduHomePage.html:1 Application Cache Downloading event
+                BaiduHomePage.html:627 Downloading new version
+                BaiduHomePage.html:1 Application Cache Progress event (0 of 7) http://hblvsjtu.picp.io:51688/CompatTest/myIcon.ico
+                BaiduHomePage.html:1 Application Cache Progress event (1 of 7) http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePage.css
+                BaiduHomePage.html:1 Application Cache Progress event (2 of 7) http://hblvsjtu.picp.io:51688/CompatTest/picture/mylogo.png
+                BaiduHomePage.html:1 Application Cache Progress event (3 of 7) http://hblvsjtu.picp.io:51688/CompatTest/picture/surcue2.png
+                BaiduHomePage.html:1 Application Cache Progress event (4 of 7) http://hblvsjtu.picp.io:51688/CompatTest/jquery-3.3.1.js
+                BaiduHomePage.html:1 Application Cache Progress event (5 of 7) http://hblvsjtu.picp.io:51688/CompatTest/picture/zhuazi2.png
+                BaiduHomePage.html:1 Application Cache Progress event (6 of 7) http://hblvsjtu.picp.io:51688/CompatTest/BaiduHomePage.html
+                BaiduHomePage.html:1 Application Cache Progress event (7 of 7) 
+                BaiduHomePage.html:1 Application Cache UpdateReady event
+                BaiduHomePage.html:627 A new version has been downloaded. Reload to run it //所以需要二次刷新      
+
+[3、permanote.js](#10.3)       
+            
+        
+------      
+    
+        
+<h2 id='八'>八、HTML5 API</h2>        
+<h3 id='8.1'>8.1 地理位置</h3>    
+        
+#### 1) 三个属性
+> - navigator.geolocation.getCurrentPosition() 获取用户当前的位置；
+> - navigator.geolocation.watchPosition() 不断监视用户当前的位置，一旦用户位置发生了改变，就会调用指定的回调函数；
+> - navigator.geolocation.clearPosition() 停止监视用户当前的位置，传递给此方法的参数应当是调用watchPosition()方法获得的返回值；
+        
+                /* 地理位置获取模块
+                 * 好像只有本地调试模式下才能获得数据
+                 * 在外网下调试由于安全性等原因不能获取
+                 */
+                var getPosition = function() {
+                    if(navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(function(pos){
+                            var latitude = pos.coords.latitude;
+                            var longitude = pos.coords.longitude;
+                            console.log("Your position: latitude = " + latitude);
+                            console.log("Your position: longitude = " + longitude);
+                        });
+                    }else {
+                        console.log("navigator.geolocation doesn’t work!");
+                    }
+                }
+                getPosition();
+
+    
+<h3 id='8.2'>8.2 历史记录管理</h3>    
+        
+#### 1) 
+> - 
+> - 
+    
+<h3 id='8.3'>8.3 跨域消息传递</h3>    
+        
+#### 1) 简介
+> - 一般来讲，一个窗口或者一个标签中运行的代码其他窗口中完全无法识别。
+> - 但是也有例外，比如当用脚本显式打开一个新窗口或者在嵌套的窗体中运行的时候，多个窗口或者嵌套的窗体之间是可以互相识别的。如果这些窗口或者嵌套的窗体是同源的，那么还可以相互进行交互和操作对方的文档。
+#### 2) postMessage()
+> - 这种技术叫"跨文档消息传递"，定义在window对象上，而非document文档对象，允许非同源的脚本的调用；
+> - 异步消息传递，所有主流的浏览器(包括IE8和更新的版本)都已经实现了该通信机制
+> - postMessage(data,origin)方法接受两个参数
+>> - data:要传递的数据，html5规范中提到该参数可以是JavaScript的任意基本类型或可复制的对象，然而并不是所有浏览器都做到了这点儿，部分浏览器只能处理字符串参数，所以我们在传递参数的时候需要使用JSON.stringify()方法对对象参数序列化，在低版本IE中引用json2.js可以实现类似效果。
+>> - origin：字符串参数，指明目标窗口的源，协议+主机+端口号[+URL]，URL会被忽略，所以可以不写，这个参数是为了安全考虑，postMessage()方法只会将message传递给指定窗口，当然如果愿意也可以建参数设置为"*"，这样可以传递给任意窗口，如果要指定和当前窗口同源的话设置为"/"。
+> - 发送消息页面：http://test.com/index.html       
+        
+                /* 我们可以在http://test.com/index.html
+                 * 通过postMessage()方法向跨域的iframe页面http://lsLib.com/lsLib.html传递消息
+                 */
+                <script type="text/javascript">
+                    window.onload=function(){
+                        window.frames[0].postMessage('getcolor','http://lslib.com');
+                    }
+                </script>
+                <div style="width:200px; float:left; margin-right:200px;border:solid 1px #333;">
+                    <div id="color">Frame Color</div>
+                </div>
+                <div>
+                    <iframe id="child" src="http://lsLib.com/lsLib.html"></iframe>
+                </div>
+> - 接收消息页面：http://lslib.com/lslib.html
+        
+                window.addEventListener('message',function(e){
+                    if(e.source!=window.parent) return;
+                    var color=container.style.backgroundColor;
+                    window.parent.postMessage(color,'*');
+                },false);
+> - 主页面接收消息
+        
+                window.addEventListener('message',function(e){
+                    var color=e.data;
+                    document.getElementById('color').style.backgroundColor=color;
+                },false);
+#### 3) 有几个重要属性
+> - data：顾名思义，是传递来的message
+> - source：发送消息的窗口对象
+> - origin：发送消息窗口的源（协议+主机+端口号）
+    
+<h3 id='8.4'>8.4 Web Worker</h3>    
+        
+#### 1) 
+> - 
+        
+<h3 id='8.5'>8.5 类型化数组和ArrayBuffer</h3>    
+        
+#### 1) 
+> - 
+> - 
+    
+<h3 id='8.6'>8.6 Blob</h3>    
+        
+#### 1) 
+> - 
+        
+<h3 id='8.7'>8.7 文件系统API</h3>    
+        
+#### 1) 
+> - 
+        
+<h3 id='8.8'>8.8 客户端数据库</h3>    
+        
+#### 1) 
+> - 
+> -     
+        
+------      
+                  
 <h2 id='10'> 附件 </h2> 
-<h3 id='10.1'>1,遍历样式表结果</h3>
+<h3 id='10.1'>1、遍历样式表结果</h3>
         
 
         //结果
@@ -1730,7 +2161,7 @@
         .sercuelogo: {display: inline-block; width: 20px; height: 20px; background: url("picture/surcue2.png") 3px 0px no-repeat rgb(255, 255, 255);}
 
        
-<h3 id='10.2'>2,HTTP状态码列表</h3>        
+<h3 id='10.2'>2、HTTP状态码列表</h3>        
         
 <center>**[HTTP状态码列表](http://www.runoob.com/http/http-status-codes.html)**</center>
 >> 状态码 | 状态码英文名称 | 中文描述
@@ -1776,7 +2207,137 @@
 >> 503 | Service Unavailable | 由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中
 >> 504 | Gateway Time-out | 充当网关或代理的服务器，未及时从远端服务器获取请求
 >> 505 | HTTP Version not supported | 服务器不支持请求的HTTP协议的版本，无法完成处理
-       
+
+<h3 id='10.3'>3、permanote.js</h3>   
+        
+                // Some variables we need throughout
+                var editor, statusline, savebutton, idletimer;
+
+                // The first time the application loads
+                window.onload = function() {
+                    // Initialize local storage if this is the first time
+                    if (localStorage.note == null) localStorage.note = "";
+                    if (localStorage.lastModified == null) localStorage.lastModified = 0;
+                    if (localStorage.lastSaved == null) localStorage.lastSaved = 0;
+
+                    // Find the elements that are the editor UI. Initialize global variables.
+                    editor = document.getElementById("editor");
+                    statusline = document.getElementById("statusline");
+                    savebutton = document.getElementById("savebutton");
+
+                    editor.value = localStorage.note; // Initialize editor with saved note
+                    editor.disabled = true;           // But don't allow editing until we sync
+
+                    // Whenever there is input in the textarea
+                    editor.addEventListener("input",
+                                            function (e) {
+                                                // Save the new value in localStorage
+                                                localStorage.note = editor.value;
+                                                localStorage.lastModified = Date.now();
+                                                // Reset the idle timer
+                                                if (idletimer) clearTimeout(idletimer);
+                                                idletimer = setTimeout(save, 5000);
+                                                // Enable the save button
+                                                savebutton.disabled = false;
+                                            },
+                                            false);
+
+                    // Each time the application loads, try to sync up with the server
+                    sync();
+                };
+
+                // Save to the server before navigating away from the page
+                window.onbeforeunload = function() {
+                    if (localStorage.lastModified > localStorage.lastSaved)
+                        save();
+                };
+
+                // If we go offline, let the user know
+                window.onoffline = function() { status("Offline"); }
+
+                // When we come online again, sync up.
+                window.ononline = function() { sync(); };
+
+                // Notify the user if there is a new version of this application available.
+                // We could also force a reload here with location.reload()
+                window.applicationCache.onupdateready = function() {
+                    status("A new version of this application is available. Reload to run it");
+                };
+
+                // Also let the user know if there is not a new version available.
+                window.applicationCache.onnoupdate = function() {
+                    status("You are running the latest version of the application.");
+                };
+
+                // A function to display a status message in the status line
+                function status(msg) { statusline.innerHTML = msg; }
+
+                // Upload the note text to the server (if we're online).
+                // Will be automatically called after 5 seconds of inactivity whenever
+                // the note has been modified.
+                function save() {
+                    if (idletimer) clearTimeout(idletimer);
+                    idletimer = null;
+
+                    if (navigator.onLine) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("PUT", "/note");
+                        xhr.send(editor.value);
+                        xhr.onload = function() {
+                            localStorage.lastSaved = Date.now();
+                            savebutton.disabled = true;
+                        };
+                    }
+                }
+
+                // Check for a new version of the note on the server. If a newer
+                // version is not found, save the current version to the server.
+                function sync() {
+                   if (navigator.onLine) {
+                        var xhr = new XMLHttpRequest();
+                        xhr.open("GET", "/note");
+                        xhr.send();
+                        xhr.onload = function() {
+                            var remoteModTime = 0;
+                            if (xhr.status == 200) {
+                                var remoteModTime = xhr.getResponseHeader("Last-Modified");
+                                remoteModTime = new Date(remoteModTime).getTime();
+                            }
+
+                            if (remoteModTime > localStorage.lastModified) {
+                                status("Newer note found on server.");
+                                var useit =
+                                    confirm("There is a newer version of the note\n" +
+                                            "on the server. Click Ok to use that version\n"+
+                                            "or click Cancel to continue editing this\n"+
+                                            "version and overwrite the server");
+                                var now = Date.now();
+                                if (useit) {
+                                    editor.value = localStorage.note = xhr.responseText;
+                                    localStorage.lastSaved = now;
+                                    status("Newest version downloaded.");
+                                }
+                                else 
+                                    status("Ignoring newer version of the note.");
+                                localStorage.lastModified = now;
+                            }
+                            else
+                                status("You are editing the current version of the note.");
+
+                            if (localStorage.lastModified > localStorage.lastSaved) {
+                                save();
+                            }
+
+                            editor.disabled = false;  // Re-enable the editor
+                            editor.focus();           // And put cursor in it
+                        }
+                    }
+                    else { // If we are currently offline, we can't sync
+                        status("Can't sync while offline");
+                        editor.disabled = false;
+                        editor.focus();
+                    }
+                }       
 
 
 
