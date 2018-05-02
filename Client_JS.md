@@ -65,6 +65,7 @@
 ### [8.6 Blob](#8.6) 
 ### [8.7 文件系统API](#8.7)      
 ### [8.8 客户端数据库](#8.8)
+### [8.9 Web套接字](#8.9)
 ## [附件](#10)
 ### [1、遍历样式表结果](#10.1)
 ### [2、HTTP状态码列表](#10.2) 
@@ -2149,29 +2150,261 @@ message使用，可见terminate中的demo
 >> - 2.worker内代码不能访问DOM
 >> - 3.各个浏览器对Worker的实现不大一致，例如FF里允许worker中创建新的worker,而Chrome中就不行
 >> - 4.不是每个浏览器都支持这个新特性
-
+        
 <h3 id='8.5'>8.5 类型化数组和ArrayBuffer</h3>    
         
-#### 1) 
-> - 
-> - 
-    
+#### 1) 类型化数组
+> - 元素都是数字，使用构造函数创建类型化数组对象的时候，就决定了数字的类型(有符号或者无符号，整数或者浮点数)和大小
+> - 有固定的长度
+> - 创建数组的时候，数组的元素总默认为0
+> - 一旦创建后，跟其他数组的使用差不多
+> - 为了高效，采用底层系统硬件的原生顺序，低位优先(little-endian)
+> - 比如：
+>> - Int8Array() 有符号字节
+>> - UInt8Array() 无符号字节
+>> - Int16Array() 有符号16位短整数
+>> - UInt16Array() 无符号16位短整数
+>> - Int32Array() 有符号32位整数
+>> - UInt32Array() 无符号32位整数
+>> - Float32Array() 32位浮点数值
+>> - Float64Array() 64位浮点数值，JS中的常规数字
+        
+                var int8 = new UInt8Array(8); //分配8个字节；
+> - 类型化数组还有一个subarray(n1, n2)的方法，返回索引n1 <= n < n2的数的子数组，而且该子数组last3作为原数组ints的一部分存在，同命运共呼吸，一改全都改。可以说只是返回当前数组的一个新的视图
+        
+                var ints = new Int16Array([0, 1, 2, 3, 4]);
+                var last3 = ints.subarray(ints.length-3, ints.length); //取最后三个
+#### 2) ArrayBuffer
+> - 每个类型化数组都有与基本缓冲区相关的三个属性
+>> - last3.buffer   // =>返回一个ArrayBuffer对象 
+>> - last3.buffer == ints.buffer    // =>true: 两者在同一个缓冲区的视图
+>> - last3.byteOffset   // =>此视图从基本缓冲区的第4个字节开始 16/8*2=4
+>> - last3.bytelength   // =>6:此视图有6字节 16/8*3=6
+>> - last3.buffer.bytelength   // =>10:基本缓冲区有10字节 16/8*5=10
+> - ArrayBuffer对象自己不是一个类型化数组，可以像数组那样操纵ArrayBuffer，但是就是不能访问缓冲区的字节
+        
+                var buf = new ArrayBuffer(1024*1024) //1MB
+                var asbytes = new UInt8Array(buf) //视为字节
+                var asints = new Int32Array(buf) //视为32位有符号整数
+> - ArrayBuffer是一块内存，或者说是带类型的高速数组，比如var buf = new ArrayBuffer(1024)，就等于开辟了一块1kb大小的内存，但是你不能通过buf变量的索引去操作这块内存，比如console.log(buf[0])得到的是undefined，如果buf[0]=77,进行赋值操作，只是在buf对象上添加了一个属性名为‘0’的属性，并没有改变内存块中第一个字节的数据，如果想操作内存块中的数据，可以通过var int8= new Int8Array(buf)然后通过int8[0]=12;来操作这块内存中的数据，也可以用Int16Array(buf)，Int32Array(buf)等，传入的是同一块内存块的引用则操作同一块内存块，剩下的自己理解吧。
+作者：李建万
+链接：https://www.zhihu.com/question/30401979/answer/133686569
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+> - 由于类型化数组采用的是小端系统，所以ArrayBuffer也只好跟随
+>>>>>> ![图8-2 大小端判断](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE8-2%20%E5%A4%A7%E5%B0%8F%E7%AB%AF%E5%88%A4%E6%96%AD.png?raw=true)
+        
+#### 3) DataView类
+> - 构造函数new DataView(buffer);
+        
+                var data;   //假设这是来自网络的ArrayBuffer
+                var view = DataView(data);
+> - setInt(offset, num, boolean)方法，第一个参数是字节偏移量，即从第几个值开始写起，第二个参数是指定要写入的值，第三个布尔量指的是大小端的选择，true为小端，false为大端，默认是大端。
+> - 和getInt(offset, boolean)的方法，第一个参数是字节偏移量，即从第几个值开始读起，第二个参数是大小端的选择，true为小端，false为大端，默认是大端看。
+                
+                // create an ArrayBuffer with a size in bytes
+                var buffer = new ArrayBuffer(16);
+
+                // Create a couple of views
+                var view1 = new DataView(buffer);
+                var view2 = new DataView(buffer,12,4); //from byte 12 for the next 4 bytes
+                view1.setInt8(12, 42); // put 42 in slot 12
+
+                console.log(view2.getInt8(0));
+                // expected output: 42
 <h3 id='8.6'>8.6 Blob</h3>    
         
-#### 1) 
-> - 
+#### 1) 定义
+> - 对大数据块的不透明引用或者句柄，名字来源于SQL数据库，表示"二进制大对象"(Binary Large Object)。在JS中，Blob通常表示二进制数据
+> - 不透明，能对它操作的就只有获取它们的大小(以字节为单位)，MIME类型；
+> - Blob是很大的数据块，如果不事先把它分割成小的数据块，后面很难把它放到主存中，同时正是由于需要操作大数据快，需要异步的API
+>>>>>> ![图8-3 Blob的获取和设置](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE8-3%20Blob%E7%9A%84%E8%8E%B7%E5%8F%96%E5%92%8C%E8%AE%BE%E7%BD%AE.png?raw=true) 
+        
+#### 2) Blob的下载
+> - 代码，来自[银发Victorique的博客](https://blog.csdn.net/SVictorique/article/details/54892701)
+                
+                //创建XMLHttpRequest对象
+                var xhr = new XMLHttpRequest();
+                //配置请求方式、请求地址以及是否同步
+                xhr.open('POST', './play', true);
+                //设置请求结果类型为blob
+                xhr.responseType = 'blob';
+                //请求成功回调函数
+                xhr.onload = function(e) {
+                    if (this.status == 200) {//请求成功
+                        //获取blob对象
+                        var blob = this.response;
+                        //获取blob对象地址，并把值赋给容器
+                        $("#sound").attr("src", URL.createObjectURL(blob));
+                    }
+                };
+                xhr.send();
+
+                <video id="sound" width="200" controls="controls"></video>
+#### 3) Blob的构造
+> - 使用BlobBuilder类
+> - Blob.slice() 此方法返回一个新的Blob对象，包含了原Blob对象中指定范围内的数据，出自[hhhyaaon的博客](https://www.cnblogs.com/hhhyaaon/p/5928152.html)
+        
+                Blob.slice(start:number, end:number, contentType:string)
+                start：开始索引，默认为0
+                end：截取结束索引（不包括end）
+                contentType：新Blob的MIME类型，默认为空字符串
+> - 例子
+        
+                var bb = new BlobBuilder();
+                bb.append("This blob contains this text and 10 big-endian 32-bit signed ints");
+                bb.append("\0"); //NUL结束符表示字符串的结束
+
+                var ab = new ArrayBuffer(4*10);
+                var dv = new DataView(ab);
+                for(var i = 0; i < 10; i++) dv.setInt32(i*4,i);
+                bb.append(ab);
+
+                //从BlobBuilder中获取blob，并设置类型
+                var blob = bb.getBlob("x-optional/mime-type-here");
+                var subbb = blob.slice(0, 1024, "text-plain");  //Blob前1kb视为文本
+                var last = blob.slice(blob.size-1024, 1024);  //Blob最后1kb视为无类型
+                var type = blob.type    //获取blob的MIME类型
+
+#### 4) Blob URL 出自[草根程序猿的博客](https://www.cnblogs.com/jscode/archive/2013/04/27/3572239.html)
+> - URL对象用于生成指向File对象或Blob对象的URL。 
+        
+                var objecturl =  window.URL.createObjectURL(blob);
+> - 上面的代码会对二进制数据生成一个URL，类似于“blob:http%3A//test.com/666e6730-f45c-47c1-8012-ccc706f17191”。这个URL可以放置于任何通常可以放置URL的地方，比如img标签的src属性。需要注意的是，即使是同样的二进制数据，每调用一次URL.createObjectURL方法，就会得到一个不一样的URL。
+> - 这个URL的存在时间，等同于网页的存在时间，一旦网页刷新或卸载，这个URL就失效。除此之外，也可以手动调用URL.revokeObjectURL方法，使URL失效。
+        
+                window.URL.revokeObjectURL(objectURL);
+> - 下面是一个利用URL对象，在网页插入图片的例子。
+        
+                var img = document.createElement("img");
+                img.src = window.URL.createObjectURL(files[0]);
+                img.height = 60;
+                img.onload = function(e) {
+                    window.URL.revokeObjectURL(this.src);
+                }
+                body.appendChild(img);
+                var info = document.createElement("span");
+                info.innerHTML = files[i].name + ": " + files[i].size + " bytes";
+                body.appendChild(info);
+
+#### 5) Blob的读取 出自[草根程序猿的博客](https://www.cnblogs.com/jscode/archive/2013/04/27/3572239.html)
+> - FileReader对象接收File对象或Blob对象作为参数，用于读取文件的实际内容，即把文件内容读入内存。对于不同类型的文件，FileReader使用不同的方法读取。
+> - FileReader.readAsBinaryString(Blob|File) ：读取结果为二进制字符串，每个字节包含一个0到255之间的整数。
+> - FileReader.readAsText(Blob|File, opt_encoding) ：读取结果是一个文本字符串。默认情况下，文本编码格式是'UTF-8'，可以通过可选的格式参数，指定其他编码格式的文本。
+FileReader.readAsDataURL(Blob|File) ： 读取结果是一个基于Base64编码的 data-uri 对象。
+> - FileReader.readAsArrayBuffer(Blob|File) ：读取结果是一个 ArrayBuffer 对象。
+> - FileReader采用异步方式读取文件，可以为一系列事件指定回调函数。
+>> - onabort：读取中断或调用reader.abort()方法时触发。
+>> - onerror：读取出错时触发。
+>> - onload：读取成功后触发。
+>> - onloadend：读取完成后触发，不管是否成功。触发顺序排在 onload 或 onerror 后面。
+>> - onloadstart：读取将要开始时触发。
+>> - onprogress：读取过程中周期性触发。
         
 <h3 id='8.7'>8.7 文件系统API</h3>    
         
-#### 1) 
-> - 
+#### 1) 简介 出自[salonzhou的专栏](https://blog.csdn.net/salonzhou/article/details/28275713)
+> - “我们不再需要下载并且安装软件。一个简单的web浏览器和一个可供使用的互联网就足以让我们在任何时间，任何地点，还有任何平台上使用任何web应用程序。”简单来说，web应用很酷，但是相对于桌面应用来说，它们有比较显著的弱点：它们无法在一个有层次的文件夹结构体即文件系统中互动和组织。 幸运的是，如果我们使用Filesystem API，我们可以做到。这个API帮助我们控制私有的本地文件系统“沙箱(sandbox)"，在这里我们可以读和写文件，创建和排列文件夹。虽然在我们写这篇文章的时候，只有Google的Chrome完整的支持Filesystem API，我觉得我们还是有必要学习这个强大并且方便的 本地存储特性。
+> - 由于并不是非常兼容，这里就不过多叙述
+
+<h3 id='8.8'>8.8 客户端数据库 具体看<a href="https://blog.csdn.net/u013084331/article/details/51336379">u013084331的博客</a></h3>    
         
-<h3 id='8.8'>8.8 客户端数据库</h3>    
+#### 1) 简述
+> - 在HTML5本地存储——Web SQL Database提到过Web SQL Database实际上已经被废弃（由于至今Firefox和IE不支持），而HTML5的支持的本地存储实际上变成了Web Storage（Local Storage和Session Storage）与IndexedDB。Web Storage使用简单字符串键值对在本地存储数据，方便灵活，但是对于大量结构化数据存储力不从心，IndexedDB是为了能够在客户端存储大量的结构化数据，并且使用索引高效检索的API。
+#### 2) 基本特性
+> - IndexedDB是对象数据库,即NoSQL(Not Only SQL)
+> - IndexedDB数据库同样受同源政策的限制(即跨域问题)
+> - IndexedDB的每个源都可以有任意数目的IndexedDB数据库。但是每个数据库的名字在该源下必须是唯一的，在IndexDB API中，一个数据库其实就是一个命名的对象存储区间(Object store)的集合。
+> - 关系型数据库遵循ACID规则
+>> - A (Atomicity) 原子性,事务里的所有操作要么全部做完，要么都不做，事务成功的条件是事务里的所有操作都成功，只要有一个操作失败，整个事务就失败，需要回滚。
+>> - C (Consistency) 一致性 数据库要一直处于一致的状态，事务的运行不会改变数据库原本的一致性约束。例如现有完整性约束a+b=10，如果一个事务改变了a，那么必须得改变b，使得事务结束后依然满足a+b=10，否则事务失败。
+>> - I (Isolation) 独立性，并发的事务之间不会互相影响，如果一个事务要访问的数据正在被另外一个事务修改，只要另外一个事务未提交，它所访问的数据就不受未提交事务的影响。
+>> - D (Durability) 持久性，指一旦事务提交后，它所做的修改将会永久的保存在数据库上，即使出现宕机也不会丢失。
+> - 异步API使用   
+#### 3) 基本API
+> - open() indexedDB.open()方法还有第二个可选参数，数据库版本号，数据库创建的时候默认版本号为1，当我们传入的版本号和数据库当前版本号不一致的时候onupgradeneeded就会被调用，当然我们不能试图打开比当前数据库版本低的version，否则调用的就是onerror了
+> - onerror 请求失败的回调函数句柄
+> - onsuccess:请求成功的回调函数句柄
+> - onupgradeneeded:请求数据库版本变化句柄
+> -  关闭数据库可以直接调用数据库对象的close方法;
+> -  删除数据库使用indexedDB对象的deleteDatabase方法: 
         
-#### 1) 
-> - 
-> -     
+                function openDB (name,version) {  
+                    var version=version || 1;  
+                    var request=window.indexedDB.open(name,version);  
+                    request.onerror=function(e){  
+                        console.log(e.currentTarget.error.message);  
+                    };  
+                    request.onsuccess=function(e){  
+                        myDB.db=e.target.result;  
+                    };  
+                    request.onupgradeneeded=function(e){  
+                        console.log('DB version changed to '+version);  
+                    };  
+                }  
+          
+                var myDB={  
+                    name:'test',  
+                    version:3,  
+                    db:null  
+                };  
+                openDB(myDB.name,myDB.version);  
+#### 4) object store
+> - 有了数据库后我们自然希望创建一个表用来存储数据，但indexedDB中没有表的概念，而是objectStore，一个数据库中可以包含多个objectStore，objectStore是一个灵活的数据结构，可以存放多种类型数据。也就是说一个objectStore相当于一张表，里面存储的每条数据和一个键相关联。
+> -  我们可以使用每条记录中的某个指定字段作为键值（keyPath），也可以使用自动生成的递增数字作为键值（keyGenerator），也可以不指定。  
+> -  具体的关于数据库的操作我们留到后端二轮的时候来讲； 
         
+<h3 id='8.9'>8.9 Web套接字</h3>    
+        
+#### 1) 简介
+> - 让不信任的客户端访问底层的TCP套接字是不安全的，但是WebSocket API定义了一种安全方案，它允许客户端代码在客户端和支持和支持WebSocket协议的服务器端创建双向的套接字类型的连接
+> - WebSocket API最伟大之处在于服务器和客户端可以在给定的时间范围内的任意时刻，相互推送信息。WebSocket并不限于以Ajax(或XHR)方式通信，因为Ajax技术需要客户端发起请求，而WebSocket服务器和客户端可以彼此相互推送信息；XHR受到域的限制，而WebSocket允许跨域通信。——来自[晓峰的博客](https://www.cnblogs.com/wei2yi/archive/2011/03/23/1992830.html)
+#### 2) 基本API
+> - WebSocket()构造函数的参数是一个URL，该URL使用的是ws://协议(或者类似于https://用于安全的wss://协议)
+        
+                var socket = new WebSocket("ws://hblvsjtu.picp.io:51688/BaiduHomePag.html")
+> - socket.onopen =function(e) {/\*套接字已经连接\*/}
+> - socket.onclose =function(e) {/\*套接字已经关闭\*/}
+> - socket.onerror =function(e) {/\*出错了\*/}
+> - socket.onmessage =function(e) { var message = e.data}
+> - socket.send("Hello, server!");
+> - 代码摘自例22-16
+        
+            <script>
+                window.onload = function() {
+                    // Take care of some UI details
+                    var nick = prompt("Enter your nickname");     // Get user's nickname
+                    var input = document.getElementById("input"); // Find the input field
+                    input.focus();                                // Set keyboard focus
+
+                    // Open a WebSocket to send and receive chat messages on.
+                    // Assume that the HTTP server we were downloaded from also functions as
+                    // a websocket server, and use the same host name and port, but change
+                    // from the http:// protocol to ws://
+                    var socket = new WebSocket("ws://" + location.host + "/");
+
+                    // This is how we receive messages from the server through the web socket
+                    socket.onmessage = function(event) {          // When a new message arrives
+                        var msg = event.data;                     // Get text from event object
+                        var node = document.createTextNode(msg);  // Make it into a text node
+                        var div = document.createElement("div");  // Create a <div>
+                        div.appendChild(node);                    // Add text node to div
+                        document.body.insertBefore(div, input);   // And add div before input
+                        input.scrollIntoView();                   // Ensure input elt is visible
+                    }
+
+                    // This is how we send messages to the server through the web socket
+                    input.onchange = function() {                 // When user strikes return
+                        var msg = nick + ": " + input.value;      // Username plus user's input
+                        socket.send(msg);                         // Send it through the socket
+                        input.value = "";                         // Get ready for more input
+                    }
+                };
+            </script>
+            <!-- The chat UI is just a single, wide text input field -->
+            <!-- New chat messages will be inserted before this element -->
+            <input id="input" style="width:100%"/>
+     
 ------      
                   
 <h2 id='10'> 附件 </h2> 
