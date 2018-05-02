@@ -2053,6 +2053,7 @@
         
 #### 1) 简介
 > - 运行在一个自包含的执行环境，无法访问Window对象和Document对象，和主线程之间的通信也是通过异步消息传递机制来实现的
+> - 只要message事件有可能触发，那么它将永远不会退出，但是，如果Worker一直没有监听到消息，那么一直到所有任务相关的回调函数都调用以及再也没有挂起的任务，它就会退出；
 #### 2) Worker对象
 > - 需要创建，把js脚本的URL传递进去作为参数，且该脚本与文档是同源的
         
@@ -2093,16 +2094,24 @@ message使用，可见terminate中的demo
         
                 importScripts("collections/Set.js", "collections/Map.js");
 #### 4) 例子
-> - fibonacci.js 在JS中不需要Worker.onmessage或者Worker.postMessage，直接上来就可以用
+> - workerTest.js 在JS中不需要Worker.onmessage或者Worker.postMessage，直接上来就可以用
                 
-                //fibonacci.js
-                var fibonacci =function(n) {
-                    return n <2? n : arguments.callee(n -1) + arguments.callee(n -2);
-                };
-                onmessage =function(event) {
-                    var n = parseInt(event.data, 10);
-                    postMessage(fibonacci(n));
-                };
+                /**
+                 * 
+                 * @authors LvHongbin
+                 * @date    2018-05-02 14:43:01
+                 * @version 1.0
+                 * @workerTest.js
+                 */
+
+                onmessage = function(e) {
+                    console.log("I have got the message e.data = " + e.data);
+                    if(e.data) postMessage(fib(e.data));
+                }
+
+                var fib = function(n) { 
+                    return n<=2?n:fib(n-1) + fib(n-2);  
+                }
 
 > - HTML文档
                 
@@ -2111,22 +2120,18 @@ message使用，可见terminate中的demo
                 <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
                 <title>web worker fibonacci</title>
-                <script type="text/javascript">
-                  onload =function(){
-                      var worker =new Worker('fibonacci.js');  
-                      worker.addEventListener('message', function(event) {
-                        var timer2 = (new Date()).valueOf();
-                           console.log( '结果：'+event.data, '时间:'+ timer2, '用时：'+ ( timer2  - timer ) );
-                      }, false);
-                      var timer = (new Date()).valueOf();
-                      console.log('开始计算：40','时间:'+ timer );
-                      setTimeout(function(){
-                          console.log('定时器函数在计算数列时执行了', '时间:'+ (new Date()).valueOf() );
-                      },1000);
-                      worker.postMessage(40);
-                      console.log('我在计算数列的时候执行了', '时间:'+ (new Date()).valueOf() );
-                  }  
-                  </script>
+                    <script type="text/javascript">
+
+                        /* worker moduel
+                         * 两种接受消息的方法都可以
+                         * 发送消息和接受消息的语句不要嵌套
+                         * 但是在workerTest.js里面可以嵌套
+                         */ 
+                        var worker = new Worker("workerTest.js");
+                        worker.postMessage(40);
+                        //worker.addEventListener("message", function(e) {console.log("The worker fib result = " + e.data);}, false);
+                        worker.onmessage = function(e) {console.log("The worker fib result = " + e.data);};  
+                    </script>
                 </head>
                 <body>
                 </body>
