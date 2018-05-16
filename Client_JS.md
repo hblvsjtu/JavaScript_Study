@@ -95,7 +95,12 @@
 #### 2) “javascript:我是代码”  
 > - 利用的是“javascript:”协议
 > - 注释必须使用/\*注释\*/
-> - 利用的是“javascript:我是代码”中返回的值，如果不返回值的话，最好使用void操作符，否则有的返回值会被转化为字符串显示\[object Window\]
+> - 利用的是“javascript:我是代码”中返回的值，如果不返回值的话，最好使用void操作符,
+        
+                href = "javascript: ;"
+                或者
+                href = "javascript: void(0);"
+> - 否则有的返回值会被转化为字符串显示\[object Window\]
 > - Web早期的产物，现在最好不要使用；
 > - 应用:书签程序
 
