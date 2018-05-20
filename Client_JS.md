@@ -199,6 +199,21 @@
 <h3 id='2.2'>2.2 计时器</h3>  
 
 #### 1) setTimeout(function, delaytime)
+#### 2) setTimeout(function, delaytime, arguments)
+> - setTimeout(code, milliseconds, param1, param2, ...)
+> - setTimeout(function, milliseconds, param1, param2, ...)
+> - 这个arguments参数是function的参数，可选。 传给执行函数的其他参数（IE9 及其更早版本不支持该参数）。
+> - 返回一个 ID（数字），可以将这个ID传递给 clearTimeout() 来取消执行。
+        
+                var stopSignal = setTimeout(function(value) {console.log(value)}, 1000, "Hello!");
+                console.log(stopSignal);
+                var stop = function(stopSignal) {
+                    clearTimeout(stopSignal);
+                }; 
+
+                09:59:44.653 VM2443:2 225664
+                09:59:44.659 undefined
+                09:59:45.655 VM2443:1 Hello!
 #### 2) setInterval(function, repeattime)
 #### 3) 如果需要终止，需利用返回的值作为clearTimeout的参数
 >>>>>> ![图2-2 定时器应用函数](https://github.com/hblvsjtu/JavaScript_Study2.0/blob/master/picture/%E5%9B%BE2-2%20%E5%AE%9A%E6%97%B6%E5%99%A8%E5%BA%94%E7%94%A8%E5%87%BD%E6%95%B0.png?raw=true)     
